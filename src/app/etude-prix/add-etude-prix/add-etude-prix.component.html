@@ -1,0 +1,215 @@
+<form (ngSubmit)="addET(formET)" #formET="ngForm">
+  <div class="ui-g-12 ui-fluid">
+    <div class="ui-g-4">
+      <label for="Ouvrage">Ouvrage</label>
+      <p-dropdown id="Ouvrage" name="ouvrage" placeholder="ouvrage" [style]="{'width':'100%'}" [options]="ouvrages" [(ngModel)]="et.ouvrageE" optionLabel="designation" required></p-dropdown>
+    </div>
+    <div class="ui-g-4">
+      <label for="rendement">Rendement</label>
+      <input  id="rendement" [style]="{'width':'100%'}" [(ngModel)]="et.rendement" name="rendement" type="text" pKeyFilter="num" required pInputText>
+    </div>
+    <div class="ui-g-4">
+      <label for="foisonnement">foisonnement</label>
+      <div class="ui-inputgroup">
+        <input  id="foisonnement" [style]="{'width':'100%'}" [(ngModel)]="et.foisonnement" name="foisonnement" pKeyFilter="num" type="text" [disabled]="fois" pInputText><span class="ui-inputgroup-addon"><p-checkbox (click)="fois=!fois" binary="true"></p-checkbox></span> 
+      </div>
+    </div>
+  </div>
+  <div class="ui-g-12 ui-fluid">
+  <div class="ui-g-4">
+    <label for="salaireChefEquipe">Salaire chef d'equipe</label>
+    <input  id="salaireChefEquipe" [style]="{'width':'100%'}" [(ngModel)]="et.salaireChefEquipe" name="salaireChefEquipe" required pKeyFilter="money" required type="text" pInputText>
+  </div>
+  <div class="ui-g-4">
+    <label for="salaireOuvrier">salaire Ouvrier</label>
+    <div class="ui-inputgroup">
+        <span class="ui-inputgroup-addon"><p-checkbox (click)="ouv=!ouv" binary="true"></p-checkbox></span> 
+      <input  id="salaireOuvrier" [style]="{'width':'100%'}" [(ngModel)]="et.salaireOuvrier" name="salaireOuvrier" pKeyFilter="money" type="text" [disabled]="ouv" pInputText>
+    </div>
+  </div>
+  <div class="ui-g-4">
+    <label for="nbrOuvrier">nombre des ouvrier</label>
+    <input  id="nbrOuvrier" [style]="{'width':'100%'}" [(ngModel)]="et.nbrOuvrier" name="nbrOuvrier" pKeyFilter="int" [disabled]="ouv" type="text" pInputText>
+  </div>
+  </div>
+  <div class="ui-g-12 ui-fluid">
+    <div class="ui-g-4"><h3>Locations des engins</h3></div>
+    <div class="ui-g-4">
+      <label for="prixGaz">prix Gazoil</label>
+      <input  id="prixGaz" [style]="{'width':'100%'}" [(ngModel)]="prixGaz" name="prixGaz" type="text" pKeyFilter="money" required pInputText>
+    </div>
+    <div class="ui-g-4">
+        <button type="button"  (click)="loc=true" pButton icon="pi pi-plus" label="ajouter une location"></button>
+    </div>
+  </div>
+  <div class="ui-g-12">
+    <p-table [value]="locations">
+      <ng-template pTemplate="header">
+          <tr>
+              <th></th>
+              <th>Engin</th>
+              <th>nbr heures</th>
+              <th>salaire chauffeur</th>
+              <th style="width:8em"></th>
+          </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData let-ri="rowIndex">
+          <tr>
+              <td>
+                  {{ri+1}}
+              </td>
+              <td pEditableColumn>
+                  <p-cellEditor>
+                      <ng-template pTemplate="input">
+                          <p-dropdown name="engin" id="engin" [style]="{'width':'100%'}" required [options]="engins" [(ngModel)]="location.engin" optionLabel="designation"></p-dropdown>
+                      </ng-template>
+                      <ng-template pTemplate="output">
+                          {{ rowData.engin.designation }}
+                      </ng-template>
+                  </p-cellEditor>
+              </td>
+              <td pEditableColumn>
+                  <p-cellEditor>
+                      <ng-template pTemplate="input">
+                          <input  id="nbrHeure" required [style]="{'width':'100%'}" [(ngModel)]="location.nbrHeure" name="nbrHeure" type="text" pKeyFilter="int" pInputText>  
+                      </ng-template>
+                      <ng-template pTemplate="output">
+                          {{rowData.nbrHeure}}
+                      </ng-template>
+                  </p-cellEditor>
+              </td>
+              <td pEditableColumn>
+                  <p-cellEditor>
+                      <ng-template pTemplate="input">
+                          <input  id="salaireChauffeur" [style]="{'width':'100%'}" required [(ngModel)]="location.salaireChauffeur" name="salaireChauffeur" type="text" pInputText>
+                      </ng-template>
+                      <ng-template pTemplate="output">
+                          {{rowData.salaireChauffeur}}
+                      </ng-template>
+                  </p-cellEditor>
+              </td>
+              <td style="text-align:center">
+                  <button pButton type="button" icon="pi pi-trash" class="ui-button-info" (click)="deleteLoc(ri)"></button>
+              </td>
+          </tr>
+      </ng-template>
+  </p-table>
+  </div>
+  <div class="ui-g-12">
+    <div class="ui-g-4">
+      <label for="distance">distance</label>
+      <div class="ui-inputgroup">
+        <span class="ui-inputgroup-addon"><p-checkbox (click)="acm=!acm" binary="true"></p-checkbox></span> 
+        <input  id="distance" [style]="{'width':'100%'}" [(ngModel)]="et.distance" name="distance" pKeyFilter="int" type="text" [disabled]="acm" pInputText>
+       </div>
+    </div>
+    <div  class="ui-g-4">
+        <label for="camion">camion</label>
+        <p-dropdown id="camion" placeholder="camion" [showClear]="true" name="cam" [disabled]="acm" [style]="{'width':'100%'}" [options]="camions" [(ngModel)]="et.enginCamion" optionLabel="designation"></p-dropdown>
+    </div>
+    <div class="ui-g-4">
+        <label for=""></label>
+      <button type="button" (click)="acad=true" class="ui-button-primary" [disabled]="acm" pButton icon="pi pi-plus" label="ajouter une location"></button>
+    </div>
+  </div>
+  <div class="ui-g-12 ui-fluid">
+      <p-table [value]="acmateriels">
+          <ng-template pTemplate="header">
+              <tr>
+                  <th>material</th>
+                  <th>dosage</th>
+                  <th>prix</th>
+                  <th style="width:8em"></th>
+              </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-rowData>
+              <tr>
+                  <td pEditableColumn>
+                      <p-cellEditor>
+                          <ng-template pTemplate="input">
+                              <p-dropdown id="materiel" name="materiel" required [style]="{'width':'100%'}" [options]="materiels" [(ngModel)]="rowData.materiel" optionLabel="designation"></p-dropdown>
+                          </ng-template>
+                          <ng-template pTemplate="output">
+                              {{rowData.materiel.designation}}
+                          </ng-template>
+                      </p-cellEditor>
+                  </td>
+                  <td pEditableColumn>
+                      <p-cellEditor>
+                          <ng-template pTemplate="input">
+                              <input  id="qte" required [style]="{'width':'100%'}" [(ngModel)]="rowData.qte" name="qte" type="text" pKeyFilter="int" pInputText>
+                            </ng-template>
+                          <ng-template pTemplate="output">
+                              {{rowData.qte}}
+                          </ng-template>
+                      </p-cellEditor>
+                  </td>
+                  <td pEditableColumn>
+                      <p-cellEditor>
+                          <ng-template pTemplate="input">
+                              <input  id="prix" required [style]="{'width':'100%'}" [(ngModel)]="rowData.prix" name="prix" type="text" pKeyFilter="num" pInputText>
+                          </ng-template>
+                          <ng-template pTemplate="output">
+                              {{rowData.prix}}
+                          </ng-template>
+                      </p-cellEditor>
+                  </td>
+                  <td style="text-align:center">
+                      <button pButton type="button"  icon="pi pi-trash" class="ui-button-info" (click)="deleteAc(ri)"></button>
+                  </td>
+              </tr>
+          </ng-template>
+      </p-table>
+  </div>
+  <div class="ui-g-12 ui-fluid">
+      <div class="ui-g-6">
+        <button pButton icon="pi pi-check" type="submit" label="ajouter" class="ui-button-primary"></button>
+      </div>
+      <div class="ui-g-6">
+        <button pButton icon="pi pi-times" type="reset" label="annuler" (click)="reset()" class="ui-button-info"></button>
+      </div>
+  </div>
+</form>
+<p-dialog header="location Engin"  [modal]="true" [responsive]="true" [(visible)]="loc" appendTo="body">
+    <form (ngSubmit)="addL(formL)" #formL="ngForm">
+        <div>
+          <label for="engin">Engin</label>
+          <p-dropdown [options]="engins" name="engins" [style]="{'width':'100%'}" [(ngModel)]="location.engin" placeholder="engin" optionLabel="designation" [showClear]="true"></p-dropdown>
+        </div>
+        <div>
+            <label for="nbrHeure">nombre d'heures</label>
+            <input  id="nbrHeure" required [style]="{'width':'100%'}" [(ngModel)]="location.nbrHeure" name="nbrHeure" type="text" pKeyFilter="int" pInputText>
+        </div>
+        <div>
+            <label for="salaireChauffeur">salaire chauffeur</label>
+            <input  id="salaireChauffeur" [style]="{'width':'100%'}" required [(ngModel)]="location.salaireChauffeur" name="salaireChauffeur" type="text" pInputText>
+        </div>
+    <br><hr>
+    <p-footer>
+        <button pButton icon="pi pi-check" type="submit" label="ajouter" class="ui-button-primary"></button>
+        <button pButton icon="pi pi-times" type="reset" (click)="loc=!loc" label="annuler"  style="float:right" class="ui-button-info"></button>
+    </p-footer>
+</form>
+</p-dialog>
+<p-dialog header="achat material"  [modal]="true" [responsive]="true" [(visible)]="acad" appendTo="body">
+    <form (ngSubmit)="addAC(formAC)" #formAC="ngForm">
+        <div>
+          <label for="materiel">material</label>
+          <p-dropdown id="materiel" placeholder="material" [showClear]="true" name="materielac" required [style]="{'width':'100%'}" [options]="materiels" [(ngModel)]="ac.materiel" optionLabel="designation"></p-dropdown>
+        </div>
+        <div>
+            <label for="qte">dosage</label>
+            <input  id="qte" required [style]="{'width':'100%'}" [(ngModel)]="ac.qte" name="qte" type="text" pKeyFilter="int" pInputText>
+        </div>
+        <div>
+            <label for="prix">prix</label>
+            <input  id="prix" required [style]="{'width':'100%'}" [(ngModel)]="ac.prix" name="prix" type="text" pKeyFilter="num" pInputText>
+        </div>
+        <br><hr>
+        <p-footer>
+            <button pButton icon="pi pi-check" type="submit" label="ajouter" class="ui-button-primary"></button>
+            <button pButton icon="pi pi-times" type="reset" (click)="acad=!acad" label="annuler" class="ui-button-info"></button>
+        </p-footer>
+    </form>
+
+</p-dialog>

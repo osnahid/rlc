@@ -1,0 +1,406 @@
+<div class="grid-container">
+    <h1 class="mat-h1">Engins</h1>
+<mat-card class="card">
+  <mat-card-header>
+    <mat-card-title>
+        les engins internes
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <p-table [value]="enginIntern" [responsive]="true">
+      <ng-template pTemplate="header">
+        <tr>
+          <th></th>
+          <th>designation</th>
+          <th>caracteristiques</th>
+          <th>prix de la location</th>
+          <th>prix d'achat</th>
+          <th>consommation H/L</th>
+          <th style="width:8em"></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-editing="editing" let-i="rowIndex" let-engin>
+        <tr [pEditableRow]="engin">
+          <td>{{ i+1 }}</td>
+          <td>
+              <p-cellEditor>
+                  <ng-template pTemplate="input">
+                      <input pInputText type="text" [(ngModel)]="engin.designation">
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                      {{ engin.designation }}
+                  </ng-template>
+              </p-cellEditor>
+          </td>
+          <td>
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                  <input pInputText type="text" [(ngModel)]="engin.caracteristiques">
+              </ng-template>
+              <ng-template pTemplate="output">
+                  {{ engin.caracteristiques }}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td>
+              <p-cellEditor>
+                <ng-template pTemplate="input">
+                    <input pInputText type="text" [(ngModel)]="engin.prixLocation">
+                </ng-template>
+                <ng-template pTemplate="output">
+                    {{ engin.prixLocation }}
+                </ng-template>
+              </p-cellEditor>
+            </td>
+          <td>
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                  <input pInputText type="text" [(ngModel)]="engin.prixAchat">
+              </ng-template>
+              <ng-template pTemplate="output">
+                  {{ engin.prixAchat }}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td>
+              <p-cellEditor>
+                <ng-template pTemplate="input">
+                    <input pInputText type="text" [(ngModel)]="engin.consommationH">
+                </ng-template>
+                <ng-template pTemplate="output">
+                    {{ engin.consommationH }}
+                </ng-template>
+              </p-cellEditor>
+            </td>
+          <td style="text-align:center">
+              <button *ngIf="!editing" pButton type="button" pInitEditableRow icon="pi pi-pencil" class="ui-button-info" (click)="onRowEditInit(engin)"></button>
+              <button *ngIf="editing" pButton type="button" pSaveEditableRow icon="pi pi-check" class="ui-button-success" style="margin-right: .5em" (click)="onRowEditSave(engin)"></button>
+              <button *ngIf="editing" pButton type="button" pCancelEditableRow icon="pi pi-times" class="ui-button-danger" (click)="onRowEditCancel(engin, i)"></button>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="summary">
+          <button type="button" (click)="addI=!addI" pButton icon="pi pi-plus" label="ajouter"></button>
+      </ng-template>
+    </p-table>
+  </mat-card-content>
+  <mat-card-footer>
+  </mat-card-footer>
+</mat-card>
+<mat-card class="card">
+    <mat-card-header>
+      <mat-card-title>
+        les engins Externes
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <p-table [value]="enginExtern" [responsive]="true">
+            <ng-template pTemplate="header">
+              <tr>
+                <th></th>
+                <th>designation</th>
+                <th>caracteristiques</th>
+                <th>prix de la location</th>
+                <th>comsommation H/L</th>
+                <th style="width:8em"></th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-editing="editing" let-i="rowIndex" let-engin>
+              <tr [pEditableRow]="engin">
+                <td>{{ i+1 }}</td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText type="text" [(ngModel)]="engin.designation">
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{ engin.designation }}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                  <p-cellEditor>
+                    <ng-template pTemplate="input">
+                        <input pInputText type="text" [(ngModel)]="engin.caracteristiques">
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                        {{ engin.caracteristiques }}
+                    </ng-template>
+                  </p-cellEditor>
+                </td>
+                <td>
+                  <p-cellEditor>
+                    <ng-template pTemplate="input">
+                        <input pInputText type="text" [(ngModel)]="engin.prixLocation">
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                        {{ engin.prixLocation }}
+                    </ng-template>
+                  </p-cellEditor>
+                </td>
+                <td>
+                    <p-cellEditor>
+                      <ng-template pTemplate="input">
+                          <input pInputText type="text" [(ngModel)]="engin.consommationH">
+                      </ng-template>
+                      <ng-template pTemplate="output">
+                          {{ engin.consommationH }}
+                      </ng-template>
+                    </p-cellEditor>
+                  </td>
+                <td style="text-align:center">
+                    <button *ngIf="!editing" pButton type="button" pInitEditableRow icon="pi pi-pencil" class="ui-button-info"></button>
+                    <button *ngIf="editing" pButton type="button" pSaveEditableRow icon="pi pi-check" class="ui-button-success" style="margin-right: .5em" (click)="onRowEditSave(engin)"></button>
+                    <button *ngIf="editing" pButton type="button" pCancelEditableRow icon="pi pi-times" class="ui-button-danger"></button>
+                </td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="summary">
+                <button type="button" (click)="addE=!addE" pButton icon="pi pi-plus" label="ajouter"></button>
+            </ng-template>
+          </p-table>
+    </mat-card-content>
+    <mat-card-footer>
+    </mat-card-footer>
+  </mat-card>
+  <mat-card class="card">
+      <mat-card-header>
+        <mat-card-title>
+            les engins camions
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+          <p-table [value]="enginCamion" [responsive]="true">
+              <ng-template pTemplate="header">
+                <tr>
+                  <th></th>
+                  <th>designation</th>
+                  <th>caracteristiques</th>
+                  <th>capacite</th>
+                  <th>prix de la location par km</th>
+                  <th style="width:8em"></th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-editing="editing" let-i="rowIndex" let-engin>
+                <tr [pEditableRow]="engin">
+                  <td>{{ i+1 }}</td>
+                  <td>
+                      <p-cellEditor>
+                          <ng-template pTemplate="input">
+                              <input pInputText type="text" [(ngModel)]="engin.designation">
+                          </ng-template>
+                          <ng-template pTemplate="output">
+                              {{ engin.designation }}
+                          </ng-template>
+                      </p-cellEditor>
+                  </td>
+                  <td>
+                    <p-cellEditor>
+                      <ng-template pTemplate="input">
+                          <input pInputText type="text" [(ngModel)]="engin.caracteristiques">
+                      </ng-template>
+                      <ng-template pTemplate="output">
+                          {{ engin.caracteristiques }}
+                      </ng-template>
+                    </p-cellEditor>
+                  </td>
+                  <td>
+                    <p-cellEditor>
+                      <ng-template pTemplate="input">
+                          <input pInputText type="text" [(ngModel)]="engin.poids">
+                      </ng-template>
+                      <ng-template pTemplate="output">
+                          {{ engin.poids }}
+                      </ng-template>
+                    </p-cellEditor>
+                  </td>
+                  <td>
+                    <p-cellEditor>
+                      <ng-template pTemplate="input">
+                          <input pInputText type="text" [(ngModel)]="engin.prixLocation">
+                      </ng-template>
+                      <ng-template pTemplate="output">
+                          {{ engin.prixLocation }}
+                      </ng-template>
+                    </p-cellEditor>
+                  </td>
+                  <td style="text-align:center">
+                      <button *ngIf="!editing" pButton type="button" pInitEditableRow icon="pi pi-pencil" class="ui-button-info"></button>
+                      <button *ngIf="editing" pButton type="button" pSaveEditableRow icon="pi pi-check" class="ui-button-success" style="margin-right: .5em" (click)="onRowEditSave(engin)"></button>
+                      <button *ngIf="editing" pButton type="button" pCancelEditableRow icon="pi pi-times" class="ui-button-danger"></button>
+                  </td>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="summary">
+                  <button type="button" (click)="addC=!addC" pButton icon="pi pi-plus" label="ajouter"></button>
+              </ng-template>
+            </p-table>
+      </mat-card-content>
+      <mat-card-footer>
+      </mat-card-footer>
+    </mat-card>
+    <mat-card class="card">
+        <mat-card-header>
+          <mat-card-title>
+            Les Vehicules
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <p-table [value]="enginVehicule" [responsive]="true">
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th></th>
+                    <th>designation</th>
+                    <th>caracteristiques</th>
+                    <th>prix d'achat</th>
+                    <th style="width:8em"></th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-editing="editing" let-i="rowIndex" let-engin>
+                  <tr [pEditableRow]="engin">
+                    <td>{{ i+1 }}</td>
+                    <td>
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <input pInputText type="text" [(ngModel)]="engin.designation">
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                {{ engin.designation }}
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+                    <td>
+                      <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText type="text" [(ngModel)]="engin.caracteristiques">
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{ engin.caracteristiques }}
+                        </ng-template>
+                      </p-cellEditor>
+                    </td>
+                    <td>
+                      <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText type="text" [(ngModel)]="engin.prixAchat">
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{ engin.prixAchat }}
+                        </ng-template>
+                      </p-cellEditor>
+                    </td>
+                    <td style="text-align:center">
+                        <button *ngIf="!editing" pButton type="button" pInitEditableRow icon="pi pi-pencil" class="ui-button-info"></button>
+                        <button *ngIf="editing" pButton type="button" pSaveEditableRow icon="pi pi-check" class="ui-button-success" style="margin-right: .5em" (click)="onRowEditSave(engin)"></button>
+                        <button *ngIf="editing" pButton type="button" pCancelEditableRow icon="pi pi-times" class="ui-button-danger"></button>
+                    </td>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="summary">
+                    <button type="button" (click)="addV=!addV" pButton icon="pi pi-plus" label="ajouter"></button>
+                </ng-template>
+              </p-table>
+        </mat-card-content>
+        <mat-card-footer>
+        </mat-card-footer>
+      </mat-card>
+</div>
+<p-dialog header="ajouter un engin interne" [(visible)]="addI" [modal]="true" [responsive]="true" [maximizable]="true" appendTo="body">
+  <form (ngSubmit)="addIntern(formI)" #formI="ngForm">
+    <div>
+      <label for="designation">designation</label>
+      <input pInputText id="designation" name="designation" type="text" [(ngModel)]="engina.designation">
+    </div>
+    <div>
+      <label for="caracteristiques">caracteristiques</label>
+      <input pInputText id="caracteristiques" name="caracteristiques" type="text" [(ngModel)]="engina.caracteristiques">
+    </div>
+    <div>
+      <label for="prixLocation">prix de la Location</label>
+      <input pInputText id="prixLocation" name="prixLocation" pKeyFilter="money" type="text" [(ngModel)]="engina.prixLocation">
+    </div>
+    <div>
+      <label for="prixAchat">Prix d'achat</label>
+      <input pInputText id="prixAchat" name="prixAchat" pKeyFilter="money" type="text" [(ngModel)]="engina.prixAchat">
+    </div>
+    <div>
+      <label for="consommationH">Consommation H/L</label>
+      <input pInputText id="consommationH" name="consommationH" type="text" pKeyFilter="num" [(ngModel)]="engina.consommationH">
+    </div>
+  <p-footer>
+    <button type="submit" pButton icon="pi pi-check" label="Ajouter"></button>
+    <button type="reset" pButton icon="pi pi-close" (click)="addI=false" label="Annuler" class="ui-button-secondary"></button>
+  </p-footer>
+</form>
+</p-dialog>
+
+<p-dialog header="ajouter un engin externe" [(visible)]="addE" [modal]="true" [responsive]="true" [maximizable]="true" appendTo="body">
+    <form (ngSubmit)="addExtern(formE)" #formE="ngForm">
+      <div>
+        <label for="designation">designation</label>
+        <input pInputText id="designation" name="designation" type="text" [(ngModel)]="engina.designation">
+      </div>
+      <div>
+        <label for="caracteristiques">caracteristiques</label>
+        <input pInputText id="caracteristiques" name="caracteristiques" type="text" [(ngModel)]="engina.caracteristiques">
+      </div>
+      <div>
+        <label for="prixLocation">prix de la Location</label>
+        <input pInputText id="prixLocation" name="prixLocation" pKeyFilter="money" type="text" [(ngModel)]="engina.prixLocation">
+      </div>
+      <div>
+        <label for="consommationH">Consommation H/L</label>
+        <input pInputText id="consommationH" name="consommationH" type="text" pKeyFilter="num" [(ngModel)]="engina.consommationH">
+      </div>
+    <p-footer>
+      <button type="submit" pButton icon="pi pi-check" label="Ajouter"></button>
+      <button type="reset" pButton icon="pi pi-close" (click)="addE=false" label="Annuler" class="ui-button-secondary"></button>
+    </p-footer>
+  </form>
+  </p-dialog>
+
+  <p-dialog header="ajouter un Camion" [(visible)]="addC" [modal]="true" [responsive]="true" [maximizable]="true" appendTo="body">
+      <form (ngSubmit)="addCamion(formC)" #formC="ngForm">
+        <div>
+          <label for="designation">designation</label>
+          <input pInputText id="designation" name="designation" type="text" [(ngModel)]="engina.designation">
+        </div>
+        <div>
+          <label for="caracteristiques">caracteristiques</label>
+          <input pInputText id="caracteristiques" name="caracteristiques" type="text" [(ngModel)]="engina.caracteristiques">
+        </div>
+        <div>
+          <label for="prixLocation">prix de la Location</label>
+          <input pInputText id="prixLocation" name="prixLocation" pKeyFilter="money" type="text" [(ngModel)]="engina.prixLocation">
+        </div>
+        <div>
+          <label for="poids">capacité en KG</label>
+          <input pInputText id="poids" name="poids" pKeyFilter="num" type="text" [(ngModel)]="engina.poids">
+        </div>
+      <p-footer>
+        <button type="submit" pButton icon="pi pi-check" label="Ajouter"></button>
+        <button type="reset" pButton icon="pi pi-close" (click)="addC=false" label="Annuler" class="ui-button-secondary"></button>
+      </p-footer>
+    </form>
+    </p-dialog>
+
+    <p-dialog header="ajouter un vehicule" [(visible)]="addV" [modal]="true" [responsive]="true" [maximizable]="true" appendTo="body">
+        <form (ngSubmit)="addVehicule(formV)" #formV="ngForm">
+          <div>
+            <label for="designation">designation</label>
+            <input pInputText id="designation" name="designation" type="text" [(ngModel)]="engina.designation">
+          </div>
+          <div>
+            <label for="caracteristiques">caracteristiques</label>
+            <input pInputText id="caracteristiques" name="caracteristiques" type="text" [(ngModel)]="engina.caracteristiques">
+          </div>
+          <div>
+            <label for="prixAchat">Prix d'achat</label>
+            <input pInputText id="prixAchat" name="prixAchat" pKeyFilter="money" type="text" [(ngModel)]="engina.prixAchat">
+          </div>
+        <p-footer>
+          <button type="submit" pButton icon="pi pi-check" label="Ajouter"></button>
+          <button type="reset" pButton icon="pi pi-close" (click)="addV=false" label="Annuler" class="ui-button-secondary"></button>
+        </p-footer>
+      </form>
+      </p-dialog>

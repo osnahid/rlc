@@ -1,0 +1,9 @@
+<p-pickList [source]="pickFrom" [target]="picks">
+    <ng-template let-so pTemplate="item">
+        <div class="ui-helper-clearfix" style="display: inline">
+            <div>{{so.ouv.designation}}</div>
+            <div><input type="type" [(ngModel)]="so.qte" pInputText pKeyFilter="num" placeholder="placeholder"></div>
+        </div>
+    </ng-template>
+</p-pickList>
+<p-button icon="pi pi-plus" (click)="save()" label="Enregistrer"></p-button>

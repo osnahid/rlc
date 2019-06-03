@@ -1,0 +1,90 @@
+<div class="grid-container">
+    <h1 class="mat-h1">Appel d'offre {{ ao.numAO }}</h1>
+      <mat-card class="">
+        <mat-card-header>
+          <mat-card-title>
+            
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="">
+            <mat-tab-group>
+              <mat-tab label="Details">
+                <div class="info-text">
+                  <div>Numero : <span>{{ ao.numAO }}</span></div>  
+                  <div>Objet : <span>{{ ao.objet }}</span><br></div> 
+                  <div>Date : <span>{{ ao.dateAO | date }}</span> <br></div> 
+                  <div>Localisation : <span>{{ ao.localisation }}</span></div>
+                  <div>Estimation : <span>{{ ao.estimation }}</span></div>
+                </div>
+              </mat-tab>
+              <mat-tab label="Installation du chantier">
+                <p-table [value]="ao.ic">
+                  <ng-template pTemplate="header" let-yourColumnArrayVaraible>
+                    <tr>
+                      <th style="width:8em"></th>
+                      <th>Designation</th>
+                      <th>Montant</th>
+                      <th style="width:8em"><p-button icon="pi pi-plus" (click)="addClick()" label=""></p-button></th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-ics let-ri="rowIndex">
+                    <tr>
+                      <td>{{ ri+1 }}</td>
+                      <td>
+                        {{ ics.designation }} 
+                      </td>
+                      <td>
+                        {{ ics.montant }}
+                      </td>
+                      <td style="align-items: center">
+                        <p-button icon="pi pi-pencil" (click)="modIC(ics)" label=""></p-button>
+                        <p-button icon="pi pi-trash" (click)="deleteIc(ics)" label=""></p-button>
+                      </td>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="summary">
+                    <tr>
+                      <td colspan="2">Totale :</td>
+                      <td colspan="2">{{ getTotalInsC() }}</td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+              </mat-tab>
+              <mat-tab label="Table bord"> 
+                  <app-soumission [ao]="ao"></app-soumission>
+              </mat-tab>
+              <mat-tab label="Etude du prix">
+                  <app-etude-prix [ao]="ao"></app-etude-prix>
+              </mat-tab>
+            </mat-tab-group>
+        </mat-card-content>
+      </mat-card>
+</div>
+<p-dialog header="" [(visible)]="addIc" [responsive]="true" appendTo="body">
+  <div>
+    <label for="designation">Designation</label>
+    <input  id="designation" [(ngModel)]="ic.designation" name="designation" type="text" pInputText>
+  </div>
+  <div>
+    <label for="montant">Montant</label>
+    <input  id="montant" [(ngModel)]="ic.montant" name="montant" type="text" pKeyFilter="num" pInputText>
+  </div>
+  <p-footer>
+      <p-button icon="pi pi-plus" (click)="addIC()" label="ajouter"></p-button>
+      <p-button icon="pi pi-times" (click)="addIc=!addIc" label=""></p-button>
+  </p-footer>
+</p-dialog>
+<p-dialog header="" [(visible)]="modIc" [responsive]="true" appendTo="body">
+    <div>
+      <label for="designation">Designation</label>
+      <input  id="designation" [(ngModel)]="ic.designation" name="designation" type="text" pInputText>
+    </div>
+    <div>
+      <label for="montant">Montant</label>
+      <input  id="montant" [(ngModel)]="ic.montant" name="montant" type="text" pKeyFilter="num" pInputText>
+    </div>
+    <p-footer>
+        <p-button icon="pi pi-check" (click)="saveModIc()" label=""></p-button>
+        <p-button icon="pi pi-times" (click)="modIc=!modIc" label=""></p-button>
+    </p-footer>
+  </p-dialog>

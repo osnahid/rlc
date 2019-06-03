@@ -1,0 +1,27 @@
+.grid-container {
+    margin: 20px;
+  } 
+.info-text{
+    display: block;
+    color: gray;
+    font-size: 1.1em;
+    width: 100%;
+}
+.info-text div{
+    width: 100%;
+    margin: 3px 0px 15px 0px;
+}
+.myGridList{
+    height: 100%;
+}
+.info-text span{
+    float: right;
+}
+.card{
+    position: absolute;
+    height: auto;
+    top: 15px;
+    left: 15px;
+    right: 15px;
+    bottom: 15px;
+}

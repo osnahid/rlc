@@ -1,0 +1,16 @@
+<form (ngSubmit)="addS(formS)" #formS="ngForm">
+    <div class="dial">
+        <div>
+            <label for="ouvrage">Ouvrage</label>
+            <p-dropdown id="ouvrage" [(ngModel)]="so.ouv" name="ouvrage" [options]="ouvrages" optionLabel="designation" [style]="{'width':'100%'}" placeholder="ouvrage" [showClear]="true" appendTo="body" required></p-dropdown>
+        </div>
+        <div>
+            <label for="qte">Qantite</label>
+            <input  id="qte" [(ngModel)]="so.qte" name="qte" type="text" pInputText required>
+        </div>
+    </div>
+    <p-footer>
+        <button type="submit" pButton icon="pi pi-plus" label="Ajouter"></button>
+        <button type="button" pButton icon="pi pi-close" (click)="dismiss()" label="Annuler" class="ui-button-secondary"></button>
+    </p-footer>
+</form>

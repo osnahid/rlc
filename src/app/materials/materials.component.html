@@ -1,0 +1,65 @@
+<div class="grid-container">
+    <h1 class="mat-h1">materiaux</h1>
+<mat-card class="card">
+  <mat-card-header>
+    <mat-card-title>
+        listes des materiaux
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <p-table [value]="materials">
+      <ng-template pTemplate="caption">
+    </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th></th>
+          <th>Designation</th>
+          <th>Categories</th>
+          <th>Prix</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-i="rowIndex" let-materiel>
+        <tr>
+          <td>
+            {{ i }}
+          </td>
+          <td>
+            {{ materiel.designation }}
+          </td>
+          <td>
+            {{ materiel.cm.designation }}
+          </td>
+          <td>
+            {{ materiel.prix }}
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="footer">
+      </ng-template>
+      <ng-template pTemplate="summary">
+        <p-button icon="pi pi-plus" (click)="addm=!addm" label="ajouter"></p-button>
+      </ng-template>
+    </p-table>
+  
+  </mat-card-content>
+  <mat-card-footer>
+  </mat-card-footer>
+</mat-card>
+</div>
+<p-dialog header="header" [(visible)]="addm" [modal]="true" [responsive]="true" appendTo="body" >
+  <div>
+    <label for="designation">Designation</label>
+    <input type="type" id="designation" [(ngModel)]="mat.designation" pInputText placeholder="placeholder">
+  </div>
+  <div>
+    <label for="categorie">Categorie</label>
+    <p-dropdown id="categorie" [style]="{'width':'100%'}" [options]="categories" [(ngModel)]="mat.cm" placeholder="categorie" optionLabel="designation" [showClear]="true" appendTo="body"></p-dropdown>
+  </div>
+  <div>
+    <label for="prix">prix</label>
+    <input type="type" id="prix" name="prix" [(ngModel)]="mat.prix" pInputText  pKeyFilter="num" placeholder="placeholder">
+  </div>
+  <p-footer>
+    <p-button icon="pi pi-check" (click)="addMat()" label="ajouter"></p-button>
+  </p-footer>
+</p-dialog>

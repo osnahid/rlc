@@ -1,0 +1,93 @@
+<div class="grid-container">
+  <h1 class="mat-h1">Les Ouvrages</h1>
+
+  <mat-card class="dashboard-card">
+    <mat-card-header>
+      <mat-card-title>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <p-accordion>
+            <p-accordionTab *ngFor="let categorie of categories" [header]="categorie.designation">
+                <p-table [columns]="cols" [value]="categorie.ouvrages" [responsive]="true">
+                    <ng-template pTemplate="caption">
+                        Liste des Ouvrages
+                    </ng-template>
+                    <ng-template pTemplate="header" let-columns>
+                        <tr>
+                            <th *ngFor="let col of columns">
+                                {{col.header}}
+                            </th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-rowData let-columns="columns">
+                        <tr>
+                            <td *ngFor="let col of columns">
+                                <span class="ui-column-title">{{col.header}}</span>
+                                {{rowData[col.field]}}
+                            </td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="summary">
+                        
+                    </ng-template>
+                </p-table>
+            </p-accordionTab>
+        </p-accordion>
+        
+        <button type="button" (click)="showDialogO()" pButton icon="pi pi-plus" label="Ajouter un ouvrage"></button>
+        <button type="button" (click)="showDialogC()" pButton icon="pi pi-plus" label="Ajouter une categorie"></button>
+    </mat-card-content>
+    <mat-card-footer>
+    </mat-card-footer>
+  </mat-card>
+  
+</div>
+<p-dialog header="Ajouter un ouvrage" [(visible)]="displayO" [modal]="true" [responsive]="true" [style]="{width: '500px', minWidth: '380px'}" [minY]="70" 
+        [maximizable]="true" appendTo="body">
+        <form (ngSubmit)="addO(formO)" #formO="ngForm">
+        <div class="dial">
+            <div>
+                <label for="des">Designation</label>
+                <input  id="des" [(ngModel)]="ouvrage.designation" name="designation" type="text" pInputText>
+            </div>
+            <div>
+                <label for="categorie">categorie</label>
+                <p-dropdown id="categorie" [(ngModel)]="ouvrage.categorie" name="categorie" [options]="categories" [autoWidth]="false" [style]="{'width':'100%'}" placeholder="categorie" optionLabel="designation" appendTo="body"></p-dropdown>
+            </div>
+            <div>
+                <label for="unite">Unite</label>
+                <p-dropdown id="unite" [(ngModel)]="ouvrage.unite" name="unite" [options]="uniteGroups" placeholder="unite" [group]="true"[autoWidth]="false" [style]="{'width':'100%'}"></p-dropdown>
+            </div>
+            <div>
+                <label for="prixU">Prix unitaire</label>
+                <input id="prixU" type="text" pInputText [(ngModel)]="ouvrage.prixU" name="prixU" pKeyFilter="money" placeholder="prix unitaire">
+            </div>
+            <div>
+                <label for="prixV">Prix Vente</label>
+                <input id="prixV" type="text" pInputText pKeyFilter="money" name="prixV" [(ngModel)]="ouvrage.prixV" placeholder="prix Vente">
+            </div>
+            
+        </div>
+        <p-footer>
+            <button type="submit" pButton icon="pi pi-plus" label="Ajouter"></button>
+            <button type="button" pButton icon="pi pi-close" (click)="displayO=false" label="Annuler" class="ui-button-secondary"></button>
+        </p-footer>
+    </form>
+</p-dialog>
+<p-dialog header="Ajouter un Categorie" [(visible)]="displayC" [modal]="true" [responsive]="true" [style]="{width: '500px', minWidth: '380px'}" [minY]="70" 
+        [maximizable]="true" appendTo="body">
+        <form (ngSubmit)="addC(formC)" #formC="ngForm">
+        <div class="dial">
+            <div>
+                <label for="des">Designation</label>
+                <input  id="des" [(ngModel)]="categorie.designation" name="designation" type="text" pInputText>
+            </div>
+        </div>
+        <p-footer>
+            <button type="submit" pButton icon="pi pi-plus" label="Ajouter"></button>
+            <button type="button" pButton icon="pi pi-close" (click)="displayC=false" label="Annuler" class="ui-button-secondary"></button>
+        </p-footer>
+    </form>
+</p-dialog>
+

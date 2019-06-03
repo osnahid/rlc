@@ -1,0 +1,99 @@
+<p-table #ep [value]="eps" [scrollable]="true" scrollHeight="300px">
+  <ng-template pTemplate="caption">
+      <div class="ui-helper-clearfix">
+          <button type="button" (click)="add=true" pButton icon="pi pi-plus" label="ajouter"></button>
+      </div>
+  </ng-template>
+  <ng-template pTemplate="header">
+      <tr>
+        <th rowspan="2" colspan="3">designation</th>
+        <th colspan="6">Engins</th>
+        <th colspan="2">Personnel</th>
+        <th rowspan="2">Débours sec</th>
+      </tr>
+      <tr>
+        <th>Location</th>
+        <th>Consommation L/H</th>
+        <th>Nbr d'heures</th>
+        <th>Prix Gasoil</th>
+        <th>Total GO</th>
+        <th>Total Matériel</th>
+        <th>Salaire mensuel</th>
+        <th>Salaire journalier</th>
+      </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-ep let-ri="rowIndex">
+     <tr style="font-weight: bold;">
+        <td colspan="11">{{ ep.ouvrageE.designation }}</td><td><p-button icon="pi pi-trash" (click)="delete(ep,ri)" label=""></p-button></td>
+     </tr>
+     <tr>
+      <td>rendement</td>
+      <td>{{ ep.rendement }}</td>
+      <td>{{ ep.ouvrageE.unite }}</td>
+     </tr>
+     <tr *ngIf="ep.foisonnement!=0">
+       <td colspan="2">foisonnement</td>
+       <td>{{ep.foisonnement}}</td>
+     </tr>
+     <tr *ngFor="let location of ep.locations">
+      <td colspan="3">{{ location.engin.designation }}</td>
+      <td>{{ location.engin.prixLocation }}</td>
+      <td>{{ location.engin.consommationH }}</td>
+      <td>{{ location.nbrHeure }}</td>
+      <td>{{ location.prixGaz }}</td>
+      <td>{{ location.totalGo | number: '.2'}}</td>
+      <td>{{ location.totalM | number: '.2' }}</td>
+      <td>{{ location.salaireChauffeur }}</td>
+      <td>{{ location.salaireChauffeur/24 | number: '.2' }}</td>
+      <td>{{ location.debours | number: '.2'}}</td>
+     </tr>
+     <tr>
+       <td colspan="3">chef d'equipe</td>
+       <td colspan="6"></td>
+       <td>{{ ep.salaireChefEquipe  | number: '.2' }}</td>
+       <td>{{ ep.deboursSalaireChefEquipe  | number: '.2' }}</td>
+       <td>{{ ep.deboursSalaireChefEquipe  | number: '.2' }}</td>
+     </tr>
+     <tr *ngIf="ep.salaireOuvrier">
+        <td colspan="3">Ouvrier</td>
+        <td colspan="6"></td>
+        <td>{{ ep.salaireOuvrier  | number: '.2' }}</td>
+        <td>{{ ep.deboursSalaireOuvrier  | number: '.2' }}</td>
+        <td>{{ ep.deboursSalaireOuvrier  | number: '.2' }}</td>
+     </tr>
+     <tr *ngFor="let ac of ep.materiels">
+      <td colspan="3"> Achat {{ ac.material.designation }}</td>
+      <th>prix</th>
+      <td>{{ ac.prix  | number: '.2' }}</td>
+      <th>dosage</th>
+      <th>{{ ac.qte }}</th>
+      <td colspan="4"></td>
+      <td>{{ ac.debours  | number: '.2' }}</td>
+     </tr>
+     <tr *ngIf="ep.distance">
+        <td colspan="3">Distance carrière</td>
+        <td>{{ ep.distance }}</td>
+        <td>km</td>
+     </tr>
+     
+     <tr>
+      <td colspan="11">total</td>
+      <td>{{ ep.total  | number: '.2' }}</td>
+     </tr>
+     <tr>
+        <td colspan="11">total jour</td>
+        <td>{{ ep.totalJour  | number: '.2' }}</td>
+     </tr>
+     <tr>
+       <th colspan="12"></th>
+     </tr>
+     
+  </ng-template>
+  <ng-template pTemplate="footer">
+      
+  </ng-template>
+</p-table>
+<p-dialog header="header" [(visible)]="add"
+[maximizable]="true" appendTo="body">
+  <app-add-etude-prix [ao]="ao" (added) = "eta($event)"></app-add-etude-prix>
+</p-dialog>
