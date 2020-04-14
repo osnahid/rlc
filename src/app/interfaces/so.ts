@@ -4,5 +4,6 @@ export class So {
     idSO: number;
     ouv: Ouvrage;
     qte: number;
+    prix: number;
     }
 

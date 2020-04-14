@@ -1,5 +1,9 @@
+<p-toast [style]="{marginTop: '80px'}"></p-toast>
 <div class="grid-container">
     <h1 class="mat-h1">Appel d'offre {{ ao.numAO }}</h1>
+
+      <p-menubar [model]="items" [autoDisplay]="false"></p-menubar>
+
       <mat-card class="">
         <mat-card-header>
           <mat-card-title>
@@ -7,7 +11,7 @@
           </mat-card-title>
         </mat-card-header>
         <mat-card-content class="">
-            <mat-tab-group>
+            <mat-tab-group [selectedIndex]="info.select">
               <mat-tab label="Details">
                 <div class="info-text">
                   <div>Numero : <span>{{ ao.numAO }}</span></div>  
@@ -18,13 +22,13 @@
                 </div>
               </mat-tab>
               <mat-tab label="Installation du chantier">
-                <p-table [value]="ao.ic">
-                  <ng-template pTemplate="header" let-yourColumnArrayVaraible>
+                <p-table [value]="ao.ic" [responsive]="true">
+                  <ng-template pTemplate="header">
                     <tr>
-                      <th style="width:8em"></th>
+                      <th style="width:6em"></th>
                       <th>Designation</th>
                       <th>Montant</th>
-                      <th style="width:8em"><p-button icon="pi pi-plus" (click)="addClick()" label=""></p-button></th>
+                      <th style="width:7em"></th>
                     </tr>
                   </ng-template>
                   <ng-template pTemplate="body" let-ics let-ri="rowIndex">
@@ -37,7 +41,7 @@
                         {{ ics.montant }}
                       </td>
                       <td style="align-items: center">
-                        <p-button icon="pi pi-pencil" (click)="modIC(ics)" label=""></p-button>
+                        <p-button icon="pi pi-pencil" (click)="modIC(ics)" style="margin-right: 0.5em" label=""></p-button>
                         <p-button icon="pi pi-trash" (click)="deleteIc(ics)" label=""></p-button>
                       </td>
                     </tr>
@@ -51,16 +55,16 @@
                 </p-table>
               </mat-tab>
               <mat-tab label="Table bord"> 
-                  <app-soumission [ao]="ao"></app-soumission>
+                  <app-soumission></app-soumission>
               </mat-tab>
               <mat-tab label="Etude du prix">
-                  <app-etude-prix [ao]="ao"></app-etude-prix>
+                  <app-etude-prix></app-etude-prix>
               </mat-tab>
             </mat-tab-group>
         </mat-card-content>
       </mat-card>
 </div>
-<p-dialog header="" [(visible)]="addIc" [responsive]="true" appendTo="body">
+<p-dialog header="ajouter une installation chantier" [(visible)]="info.displayIC" [responsive]="true" appendTo="body">
   <div>
     <label for="designation">Designation</label>
     <input  id="designation" [(ngModel)]="ic.designation" name="designation" type="text" pInputText>
@@ -71,10 +75,11 @@
   </div>
   <p-footer>
       <p-button icon="pi pi-plus" (click)="addIC()" label="ajouter"></p-button>
-      <p-button icon="pi pi-times" (click)="addIc=!addIc" label=""></p-button>
+      <p-button icon="pi pi-times" (click)="info.displayIC=!info.displayIC" label=""></p-button>
   </p-footer>
 </p-dialog>
-<p-dialog header="" [(visible)]="modIc" [responsive]="true" appendTo="body">
+<p-dialog header="modifier une installation chantier" [(visible)]="modIc" [responsive]="true" appendTo="body">
+    <form (ngSubmit)="saveModIc()" #formMIC="ngForm">
     <div>
       <label for="designation">Designation</label>
       <input  id="designation" [(ngModel)]="ic.designation" name="designation" type="text" pInputText>
@@ -84,7 +89,15 @@
       <input  id="montant" [(ngModel)]="ic.montant" name="montant" type="text" pKeyFilter="num" pInputText>
     </div>
     <p-footer>
-        <p-button icon="pi pi-check" (click)="saveModIc()" label=""></p-button>
+        <p-button [disabled]="formMIC.invalid" type="submit" icon="pi pi-check" label=""></p-button>
         <p-button icon="pi pi-times" (click)="modIc=!modIc" label=""></p-button>
     </p-footer>
+  </form>
   </p-dialog>
+<p-dialog header="Ajouter des soumissions" [(visible)]="info.displayAL" [modal]="true" [responsive]="true" [style]="{width: '600px', minWidth: '380px'}" [minY]="70" 
+  [maximizable]="true" appendTo="body">
+  <app-add-soumissions (added)="addS($event)" ></app-add-soumissions>
+</p-dialog>
+<p-dialog header="ajouter un etude du prix" [(visible)]="info.displayAEP" [style]="{marginTop: '0%' , width: '100%', height: '380px'}" [responsive]="true" appendTo="body">
+  <app-add-etude-prix (added) = "addEP($event)"></app-add-etude-prix>
+</p-dialog>

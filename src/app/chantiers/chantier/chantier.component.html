@@ -1,0 +1,63 @@
+<p-toast [style]="{marginTop: '80px'}"></p-toast>
+<div class="grid-container">
+  <h1 class="mat-h1">Chantier numero: {{ chantier.numCh }}</h1>
+  <p-menubar [model]="items" [autoDisplay]="false">
+    <div *ngIf="chantier.etat === 'enCours'">
+      <button pButton label="fini" (click)="fini()" style="margin-left:.25em"></button>
+  </div>
+  </p-menubar>
+  <mat-card class="">
+    <mat-card-content class="">
+        <mat-tab-group [selectedIndex]="info.select">
+          <mat-tab label="avancement du chantier">
+            <app-avancement></app-avancement>
+          </mat-tab>
+          <mat-tab label="Besoin Transverses">
+            <app-besoin-transverses></app-besoin-transverses>
+          </mat-tab>
+          <mat-tab label="decomptes">
+            <app-decomptes></app-decomptes>
+          </mat-tab>
+          <mat-tab label="personnels">
+            <app-list></app-list>
+          </mat-tab>
+          <mat-tab label="Engins">
+            <app-list-engin></app-list-engin>            
+          </mat-tab>
+          <mat-tab label="achats materiaux">
+            <app-list-achat></app-list-achat>
+          </mat-tab>
+          <mat-tab label="maintenance">
+            <app-list-maintenance></app-list-maintenance>
+          </mat-tab>
+          <mat-tab label="depenses">
+            <app-depences></app-depences>
+          </mat-tab>
+          <mat-tab label="situation externe">
+              <app-se></app-se>
+            </mat-tab>
+        </mat-tab-group>
+    </mat-card-content>
+  </mat-card>
+</div>
+<p-dialog header="Ajouter un decomptes" [(visible)]="info.addD" [modal]="true" [responsive]="true" appendTo="body" [maximizable]="true" >
+  <app-add-decomptes (emit)="addDecomptes($event)"></app-add-decomptes>
+</p-dialog>
+<p-dialog header="Affectation des engins" [(visible)]="info.addE" [modal]="true" [responsive]="true" appendTo="body" [maximizable]="true">
+    <app-ajouter (added)="addEngin($event)" ></app-ajouter>
+</p-dialog>
+<p-dialog header="Affectation des personnels" [(visible)]="info.addP" [modal]="true" [responsive]="true" appendTo="body" [maximizable]="true">
+  <app-affectation (added)="addPersonnels($event)"></app-affectation>
+</p-dialog>
+<p-dialog header="Ajouter un entretien" [(visible)]="info.addEn" [modal]="true" [responsive]="true" appendTo="body" [maximizable]="true">
+  <app-entretien-ajout (emiter)="addEntretien($event)"></app-entretien-ajout>
+</p-dialog>
+<p-dialog header="Ajouter une reparation" [(visible)]="info.addR" [modal]="true" [responsive]="true" appendTo="body" [maximizable]="true">
+  <app-reparation-ajout (emiter)="addRepration($event)"></app-reparation-ajout>
+</p-dialog>
+<p-dialog header="Ajouter un achat des materiaux" [(visible)]="info.addA" [modal]="true" [responsive]="true" appendTo="body" [maximizable]="true">
+  <app-select-achat (emiter)="addAchat($event)"></app-select-achat>
+</p-dialog>
+<p-dialog header="Ajouter un Besoin Transverse" [(visible)]="info.addB" [modal]="true" [responsive]="true" appendTo="body" [maximizable]="true">
+  <app-add-bt (emiter)="addBt($event)"></app-add-bt>
+</p-dialog>

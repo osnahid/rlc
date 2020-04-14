@@ -32,5 +32,8 @@ export class AddSoumissionComponent implements OnInit {
       data => this.ouvrages = data
       );
   }
+  dismiss(){
+    this.added.emit(true);
+  }
 
 }

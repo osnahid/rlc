@@ -1,67 +1,63 @@
-<form (ngSubmit)="addET(formET)" #formET="ngForm">
-  <div class="ui-g-12 ui-fluid">
-    <div class="ui-g-4">
-      <label for="Ouvrage">Ouvrage</label>
-      <p-dropdown id="Ouvrage" name="ouvrage" placeholder="ouvrage" [style]="{'width':'100%'}" [options]="ouvrages" [(ngModel)]="et.ouvrageE" optionLabel="designation" required></p-dropdown>
+<form (ngSubmit)="addET()" #formET="ngForm">
+    <div class="ui-g">
+    <div class="ui-g-12 ui-md-6 ui-lg-4">
+      <label for="ouvrage">Ouvrage</label>
+      <p-dropdown id="ouvrage" #ouvrage="ngModel" name="ouvrage" placeholder="ouvrage" [style]="{'width':'100%'}" [options]="ouvrages" [(ngModel)]="et.ouvrageE" optionLabel="designation" required></p-dropdown>
     </div>
-    <div class="ui-g-4">
+    <div class="ui-g-12 ui-md-6 ui-lg-4">
       <label for="rendement">Rendement</label>
-      <input  id="rendement" [style]="{'width':'100%'}" [(ngModel)]="et.rendement" name="rendement" type="text" pKeyFilter="num" required pInputText>
+      <input  id="rendement" #rendement="ngModel" [style]="{'width':'100%'}" [(ngModel)]="et.rendement" name="rendement" type="text" pKeyFilter="num" required pInputText>
     </div>
-    <div class="ui-g-4">
+    <div class="ui-g-12 ui-md-6 ui-lg-4">
       <label for="foisonnement">foisonnement</label>
       <div class="ui-inputgroup">
-        <input  id="foisonnement" [style]="{'width':'100%'}" [(ngModel)]="et.foisonnement" name="foisonnement" pKeyFilter="num" type="text" [disabled]="fois" pInputText><span class="ui-inputgroup-addon"><p-checkbox (click)="fois=!fois" binary="true"></p-checkbox></span> 
+        <input  id="foisonnement" #foisonnement="ngModel" [style]="{'width':'100%'}" [(ngModel)]="et.foisonnement" name="foisonnement" pKeyFilter="num" type="text" [disabled]="fois" pInputText><span class="ui-inputgroup-addon"><p-checkbox (click)="fois=!fois" binary="true"></p-checkbox></span> 
       </div>
     </div>
-  </div>
-  <div class="ui-g-12 ui-fluid">
-  <div class="ui-g-4">
-    <label for="salaireChefEquipe">Salaire chef d'equipe</label>
-    <input  id="salaireChefEquipe" [style]="{'width':'100%'}" [(ngModel)]="et.salaireChefEquipe" name="salaireChefEquipe" required pKeyFilter="money" required type="text" pInputText>
-  </div>
-  <div class="ui-g-4">
-    <label for="salaireOuvrier">salaire Ouvrier</label>
-    <div class="ui-inputgroup">
-        <span class="ui-inputgroup-addon"><p-checkbox (click)="ouv=!ouv" binary="true"></p-checkbox></span> 
-      <input  id="salaireOuvrier" [style]="{'width':'100%'}" [(ngModel)]="et.salaireOuvrier" name="salaireOuvrier" pKeyFilter="money" type="text" [disabled]="ouv" pInputText>
+    <div class="ui-g-12 ui-md-6 ui-lg-4">
+        <label for="salaireChefEquipe">Salaire chef d'equipe</label>
+        <input  id="salaireChefEquipe" #salaireChefEquipe="ngModel" [style]="{'width':'100%'}" [(ngModel)]="et.salaireChefEquipe" name="salaireChefEquipe" required pKeyFilter="money" required type="text" pInputText>
     </div>
-  </div>
-  <div class="ui-g-4">
-    <label for="nbrOuvrier">nombre des ouvrier</label>
-    <input  id="nbrOuvrier" [style]="{'width':'100%'}" [(ngModel)]="et.nbrOuvrier" name="nbrOuvrier" pKeyFilter="int" [disabled]="ouv" type="text" pInputText>
-  </div>
-  </div>
-  <div class="ui-g-12 ui-fluid">
-    <div class="ui-g-4"><h3>Locations des engins</h3></div>
-    <div class="ui-g-4">
+    <div class="ui-g-12 ui-md-6 ui-lg-4">
+        <label for="salaireOuvrier">salaire Ouvrier</label>
+        <div class="ui-inputgroup">
+            <span class="ui-inputgroup-addon"><p-checkbox (click)="ouv=!ouv" binary="true"></p-checkbox></span> 
+        <input  id="salaireOuvrier" #salaireOuvrier="ngModel" [style]="{'width':'100%'}" [(ngModel)]="et.salaireOuvrier" name="salaireOuvrier" pKeyFilter="money" type="text" [disabled]="ouv" pInputText>
+        </div>
+    </div>
+    <div class="ui-g-12 ui-md-6 ui-lg-4">
+        <label for="nbrOuvrier">nombre des ouvrier</label>
+        <input  id="nbrOuvrier" #nbrOuvrier="ngModel" [style]="{'width':'100%'}" [(ngModel)]="et.nbrOuvrier" name="nbrOuvrier" pKeyFilter="int" [disabled]="ouv" type="text" pInputText>
+    </div>
+</div>
+  <div class="ui-g">
+  <div class="ui-md-12 ui-lg-6">
+  <div class="">
+    <div class=""><h3>Locations des engins</h3></div>
+    <div class="">
       <label for="prixGaz">prix Gazoil</label>
       <input  id="prixGaz" [style]="{'width':'100%'}" [(ngModel)]="prixGaz" name="prixGaz" type="text" pKeyFilter="money" required pInputText>
     </div>
-    <div class="ui-g-4">
-        <button type="button"  (click)="loc=true" pButton icon="pi pi-plus" label="ajouter une location"></button>
+    <div class="">
+        <button type="button" class="buttons" (click)="loc=true" pButton icon="pi pi-plus" label="ajouter une location"></button>
     </div>
-  </div>
-  <div class="ui-g-12">
-    <p-table [value]="locations">
+  </div> 
+  <div class=" ">
+    <p-table [value]="locations"  [responsive]="true">
       <ng-template pTemplate="header">
           <tr>
-              <th></th>
               <th>Engin</th>
               <th>nbr heures</th>
               <th>salaire chauffeur</th>
-              <th style="width:8em"></th>
+              <th style="width:5em"></th>
           </tr>
       </ng-template>
       <ng-template pTemplate="body" let-rowData let-ri="rowIndex">
           <tr>
-              <td>
-                  {{ri+1}}
-              </td>
               <td pEditableColumn>
                   <p-cellEditor>
                       <ng-template pTemplate="input">
-                          <p-dropdown name="engin" id="engin" [style]="{'width':'100%'}" required [options]="engins" [(ngModel)]="location.engin" optionLabel="designation"></p-dropdown>
+                          <p-dropdown name="engin" id="engin" [style]="{'width':'100%'}" required [options]="engins" [(ngModel)]="rowData.engin" optionLabel="designation"></p-dropdown>
                       </ng-template>
                       <ng-template pTemplate="output">
                           {{ rowData.engin.designation }}
@@ -71,7 +67,7 @@
               <td pEditableColumn>
                   <p-cellEditor>
                       <ng-template pTemplate="input">
-                          <input  id="nbrHeure" required [style]="{'width':'100%'}" [(ngModel)]="location.nbrHeure" name="nbrHeure" type="text" pKeyFilter="int" pInputText>  
+                          <input  id="nbrHeure" required [style]="{'width':'100%'}" [(ngModel)]="rowData.nbrHeure" name="nbrHeure" type="text" pKeyFilter="int" pInputText>  
                       </ng-template>
                       <ng-template pTemplate="output">
                           {{rowData.nbrHeure}}
@@ -81,7 +77,7 @@
               <td pEditableColumn>
                   <p-cellEditor>
                       <ng-template pTemplate="input">
-                          <input  id="salaireChauffeur" [style]="{'width':'100%'}" required [(ngModel)]="location.salaireChauffeur" name="salaireChauffeur" type="text" pInputText>
+                          <input  id="salaireChauffeur" [style]="{'width':'100%'}" required [(ngModel)]="rowData.salaireChauffeur" name="salaireChauffeur" type="text" pInputText>
                       </ng-template>
                       <ng-template pTemplate="output">
                           {{rowData.salaireChauffeur}}
@@ -95,31 +91,33 @@
       </ng-template>
   </p-table>
   </div>
-  <div class="ui-g-12">
-    <div class="ui-g-4">
+</div>
+<div class="ui-md-12 ui-lg-6">
+  <div class="">
+    <div class="">
       <label for="distance">distance</label>
       <div class="ui-inputgroup">
         <span class="ui-inputgroup-addon"><p-checkbox (click)="acm=!acm" binary="true"></p-checkbox></span> 
-        <input  id="distance" [style]="{'width':'100%'}" [(ngModel)]="et.distance" name="distance" pKeyFilter="int" type="text" [disabled]="acm" pInputText>
+        <input  id="distance" #distance="ngModel" required [style]="{'width':'100%'}" [(ngModel)]="et.distance" name="distance" pKeyFilter="int" type="text" [disabled]="acm" pInputText>
        </div>
     </div>
-    <div  class="ui-g-4">
+    <div  class="">
         <label for="camion">camion</label>
-        <p-dropdown id="camion" placeholder="camion" [showClear]="true" name="cam" [disabled]="acm" [style]="{'width':'100%'}" [options]="camions" [(ngModel)]="et.enginCamion" optionLabel="designation"></p-dropdown>
+        <p-dropdown id="camion" #camion="ngModel" required placeholder="camion" [showClear]="true" name="cam" [disabled]="acm" [style]="{'width':'100%'}" [options]="camions" [(ngModel)]="et.enginCamion" optionLabel="designation"></p-dropdown>
     </div>
-    <div class="ui-g-4">
+    <div class="">
         <label for=""></label>
-      <button type="button" (click)="acad=true" class="ui-button-primary" [disabled]="acm" pButton icon="pi pi-plus" label="ajouter une location"></button>
+      <button type="button" (click)="acad=true" class="buttons" [disabled]="acm" pButton icon="pi pi-plus" label="ajouter une location"></button>
     </div>
   </div>
-  <div class="ui-g-12 ui-fluid">
-      <p-table [value]="acmateriels">
+  <div class="">
+      <p-table [value]="acmateriels" [responsive]="true">
           <ng-template pTemplate="header">
               <tr>
                   <th>material</th>
                   <th>dosage</th>
                   <th>prix</th>
-                  <th style="width:8em"></th>
+                  <th style="width:5em"></th>
               </tr>
           </ng-template>
           <ng-template pTemplate="body" let-rowData>
@@ -161,55 +159,62 @@
           </ng-template>
       </p-table>
   </div>
-  <div class="ui-g-12 ui-fluid">
-      <div class="ui-g-6">
-        <button pButton icon="pi pi-check" type="submit" label="ajouter" class="ui-button-primary"></button>
-      </div>
-      <div class="ui-g-6">
-        <button pButton icon="pi pi-times" type="reset" label="annuler" (click)="reset()" class="ui-button-info"></button>
-      </div>
-  </div>
+</div>
+</div>
+<div class="ui-g-12 ui-md-12 ui-lg-12">
+    <div class="ui-g-6">
+    <button pButton style="width: 100%" icon="pi pi-check" [disabled]="formET.invalid" type="submit" label="ajouter" class="ui-button-primary"></button>
+    </div>
+    <div class="ui-g-6">
+    <button pButton icon="pi pi-times" style="width: 100%" type="reset" label="annuler" (click)="reset()" class="ui-button-info"></button>
+    </div>
+</div>
 </form>
 <p-dialog header="location Engin"  [modal]="true" [responsive]="true" [(visible)]="loc" appendTo="body">
-    <form (ngSubmit)="addL(formL)" #formL="ngForm">
+    <form (ngSubmit)="addL()" #formL="ngForm">
         <div>
           <label for="engin">Engin</label>
-          <p-dropdown [options]="engins" name="engins" [style]="{'width':'100%'}" [(ngModel)]="location.engin" placeholder="engin" optionLabel="designation" [showClear]="true"></p-dropdown>
+          <p-dropdown [options]="engins" #engin="ngModel" appendTo="body" required name="engins" [style]="{'width':'100%'}" [(ngModel)]="location.engin" placeholder="engin" optionLabel="designation" [showClear]="true"></p-dropdown>
         </div>
         <div>
             <label for="nbrHeure">nombre d'heures</label>
-            <input  id="nbrHeure" required [style]="{'width':'100%'}" [(ngModel)]="location.nbrHeure" name="nbrHeure" type="text" pKeyFilter="int" pInputText>
+            <input  id="nbrHeure" #nbrHeure="ngModel" required [style]="{'width':'100%'}" [(ngModel)]="location.nbrHeure" name="nbrHeure" type="text" pKeyFilter="int" pInputText>
         </div>
         <div>
             <label for="salaireChauffeur">salaire chauffeur</label>
-            <input  id="salaireChauffeur" [style]="{'width':'100%'}" required [(ngModel)]="location.salaireChauffeur" name="salaireChauffeur" type="text" pInputText>
+            <input  id="salaireChauffeur" #salaireChauffeur="ngModel" [style]="{'width':'100%'}" required [(ngModel)]="location.salaireChauffeur" name="salaireChauffeur" type="text" pInputText>
         </div>
     <br><hr>
     <p-footer>
-        <button pButton icon="pi pi-check" type="submit" label="ajouter" class="ui-button-primary"></button>
+        <button pButton [disabled]="formL.invalid" icon="pi pi-check" type="submit" label="ajouter" class="ui-button-primary"></button>
         <button pButton icon="pi pi-times" type="reset" (click)="loc=!loc" label="annuler"  style="float:right" class="ui-button-info"></button>
     </p-footer>
 </form>
 </p-dialog>
 <p-dialog header="achat material"  [modal]="true" [responsive]="true" [(visible)]="acad" appendTo="body">
-    <form (ngSubmit)="addAC(formAC)" #formAC="ngForm">
+    <form (ngSubmit)="addAC()" #formAC="ngForm">
         <div>
           <label for="materiel">material</label>
-          <p-dropdown id="materiel" placeholder="material" [showClear]="true" name="materielac" required [style]="{'width':'100%'}" [options]="materiels" [(ngModel)]="ac.materiel" optionLabel="designation"></p-dropdown>
+          <p-dropdown id="materiel" #materiel="ngModel" appendTo="body" placeholder="material" [showClear]="true" name="materielac" required [style]="{'width':'100%'}" [options]="materiels" [(ngModel)]="ac.materiel">
+            <ng-template let-mat pTemplate="item"> 
+                <div class="ui-helper-clearfix" style="position: relative;height:25px;">
+                <div style="font-size:14px;float:right;margin-top:4px">{{mat.label}}</div>
+              </div>
+            </ng-template>
+          </p-dropdown>
         </div>
         <div>
             <label for="qte">dosage</label>
-            <input  id="qte" required [style]="{'width':'100%'}" [(ngModel)]="ac.qte" name="qte" type="text" pKeyFilter="int" pInputText>
+            <input  id="qte" #qte="ngModel" required [style]="{'width':'100%'}" [(ngModel)]="ac.qte" name="qte" type="text" pKeyFilter="num" pInputText>
         </div>
         <div>
             <label for="prix">prix</label>
-            <input  id="prix" required [style]="{'width':'100%'}" [(ngModel)]="ac.prix" name="prix" type="text" pKeyFilter="num" pInputText>
+            <input  id="prix" #prix="ngModel" required [style]="{'width':'100%'}" [(ngModel)]="ac.prix" name="prix" type="text" pKeyFilter="num" pInputText>
         </div>
         <br><hr>
         <p-footer>
-            <button pButton icon="pi pi-check" type="submit" label="ajouter" class="ui-button-primary"></button>
+            <button pButton icon="pi pi-check" [disabled]="formAC.invalid" type="submit" label="ajouter" class="ui-button-primary"></button>
             <button pButton icon="pi pi-times" type="reset" (click)="acad=!acad" label="annuler" class="ui-button-info"></button>
         </p-footer>
     </form>
-
 </p-dialog>

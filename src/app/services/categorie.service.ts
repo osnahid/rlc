@@ -11,9 +11,9 @@ export class CategorieService {
   constructor(private api : HttpClient) { }
 
   getCategories(): Observable<Categorie[]>{
-    return this.api.get<Categorie[]>("http://localhost:8080/Categories/All");
+    return this.api.get<Categorie[]>("http://localhost:8083/lrcServer/Categories/All");
   }
   addCategorie(c: Categorie): Observable<Categorie>{
-    return this.api.post<Categorie>("http://localhost:8080/Categories/add",c);
+    return this.api.post<Categorie>("http://localhost:8083/lrcServer/Categories/add",c);
   }
 }

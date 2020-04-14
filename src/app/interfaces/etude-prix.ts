@@ -13,6 +13,6 @@ export class EtudePrix {
     materiels: AchatMateriel[];
     salaireChefEquipe: number;
 	salaireOuvrier: number;
-    nbrOuvrier: number;
+    nbrOuvrier: number=0;
     enginCamion: Engin;
 }

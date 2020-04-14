@@ -1,0 +1,72 @@
+
+<p-table #so [value]="dos" [(selection)]="dosSelected">
+    <ng-template pTemplate="caption">
+        <div class="ui-g-12 ui-md-6">
+            <div class="ui-g-4" style="color: black">
+                date: 
+            </div>
+            <div class="ui-g-8">
+                <p-calendar [(ngModel)]="decompte.date" dateFormat="dd/mm/yy" [minDate]="newDate" appendTo="body" ></p-calendar>      
+            </div>
+        </div>
+    </ng-template>
+  <ng-template pTemplate="header">
+      <tr>
+          <th style="width: 3em">
+              <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+          </th>
+          <th>Désignation des Ouvrages</th>
+          <th>Unite</th>
+          <th>Qte realisé</th>
+          <th>Qte estimé</th>
+          <th>prix unitaire</th>
+          <th>totale realisé</th>
+      </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-dec>
+      <tr>
+        <td>
+            <p-tableCheckbox [value]="dec"></p-tableCheckbox>
+        </td>
+        <td>{{ dec.do.ouv.designation }}</td>
+        <td>{{ dec.do.ouv.unite }}</td>
+        <td>
+          <p-inplace closable="closable">
+              <span pInplaceDisplay>
+                  {{ dec.do.qte }}
+              </span>
+              <span pInplaceContent>
+                  <input type="text" [(ngModel)]="dec.do.qte" pInputText>
+              </span>
+          </p-inplace>
+        </td>
+        <td>{{ dec.so.qte }}</td>
+        <td>{{ dec.so.prix }}</td>
+        <td>{{ dec.so.prix * dec.do.qte }}</td>
+      </tr>
+  </ng-template>
+  <ng-template pTemplate="footer">
+      <tr>
+          <td colspan="6">Total</td>
+          <td>{{ getTotal() }}</td>
+      </tr>
+      <tr>
+        <td colspan="6">tva 20%</td>
+        <td>{{ getTotal() * 0.2 }}</td>
+    </tr>
+    <tr>
+            <td colspan="6">Total TTC</td>
+            <td>{{ getTotal() + getTotal() * 0.2 }}</td>
+        </tr>
+  </ng-template>
+</p-table>
+<p-footer>
+    <div class="ui-g-12">
+    <div class="ui-g-6">   
+        <button type="button" pButton icon="pi pi-check" style="width: 100%" (click)="add()" label="Enregistrer"></button>
+    </div>
+    <div class="ui-g-6">    
+        <button type="button" pButton icon="pi pi-times"  style="width: 100%" (click)="cancel()" label="Annuler" class="ui-button-secondary"></button>
+    </div>
+    </div>
+</p-footer>

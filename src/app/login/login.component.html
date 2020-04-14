@@ -1,0 +1,18 @@
+<div class="login-container">
+    <div class="login-content">
+      <mat-toolbar class="login-toolbar" color="primary"><img src="../../favicon.ico" alt=""></mat-toolbar>
+      <mat-card>
+        <form [formGroup]="loginForm" novalidate (ngSubmit)="onSubmit()">
+          <mat-form-field>
+            <input autofocus type="text" matInput placeholder="admin" formControlName="username">
+          </mat-form-field>
+
+          <mat-form-field>
+            <input type="password" autocomplete="false" matInput placeholder="mot de passe" formControlName="password">
+          </mat-form-field>
+
+          <button type="submit" mat-raised-button color="primary">se connecter</button>
+        </form>
+      </mat-card>
+    </div>
+  </div>

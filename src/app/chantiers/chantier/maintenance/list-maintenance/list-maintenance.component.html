@@ -1,0 +1,118 @@
+<mat-tab-group>
+    <mat-tab label="Entretiens">
+        <p-table [columns]="colsE" [value]="entretiens" [resizableColumns]="true" scrollHeight="300px" [scrollable]="true" [responsive]="true">
+            <ng-template pTemplate="header" let-cols>
+              <tr>
+                <th style="width:5em"></th>
+                <th>Engin</th>
+                <th *ngFor="let col of cols">
+                  {{col.header}}
+                </th>
+                <th style="width:5em"></th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-i="rowIndex" let-maintenance>
+              <tr>
+                <td style="width:5em">{{ i+1 }}</td>
+                <td>{{ maintenance.enginE.designation }}</td>
+                <td pEditableColumn>
+                  <p-cellEditor>
+                      <ng-template pTemplate="input">
+                        <input pInputText type="text" (input)="onRowEdit(maintenance)" [(ngModel)]="maintenance.designation">
+                      </ng-template>
+                      <ng-template pTemplate="output">
+                        {{ maintenance.designation }}
+                      </ng-template>
+                  </p-cellEditor>
+                </td> 
+                
+                <td pEditableColumn>
+                  <p-cellEditor>
+                      <ng-template pTemplate="input">
+                        <p-calendar #date name="date" required appendTo="body" (onSelect)="onRowEditDate(maintenance,date)"></p-calendar>
+                      </ng-template>
+                      <ng-template pTemplate="output">
+                        {{ maintenance.date | date}}
+                      </ng-template>
+                  </p-cellEditor>
+                </td>
+                <td pEditableColumn>
+                  <p-cellEditor>
+                      <ng-template pTemplate="input">
+                        <input id="prix" #prix="ngModel" type="text"  [(ngModel)]="maintenance.pu" name="prix" required pInputText pKeyFilter="num" (input)="onRowEdit(maintenance)" placeholder="prix">
+                      </ng-template>
+                      <ng-template pTemplate="output">
+                        {{ maintenance.pu }}
+                      </ng-template>
+                  </p-cellEditor>
+                </td> 
+                <td style="width: 5em">              
+                    <button pButton type="button" icon="pi pi-trash" class="ui-button-info" (click)="onDeleteE(maintenance)"></button>
+                </td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="summary">
+            Total:{{ getTotalE() }}
+            </ng-template>
+          </p-table>
+          
+    </mat-tab>
+    <mat-tab label="Reparations">
+        <p-table [columns]="colsR" [value]="reparations" [resizableColumns]="true" scrollHeight="300px" [scrollable]="true" [responsive]="true">
+            <ng-template pTemplate="header" let-cols>
+              <tr>
+                <th style="width: 5em"></th>
+                <th>Engin</th>
+                <th *ngFor="let col of cols">
+                  {{col.header}}
+                </th>
+                <th style="width: 5em"></th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-i="rowIndex" let-maintenance>
+              <tr>
+                <td style="width:5em">{{ i+1 }}</td>
+                <td>{{ maintenance.enginR.designation }}</td>
+                <td pEditableColumn>
+                  <p-cellEditor>
+                      <ng-template pTemplate="input">
+                        <input pInputText type="text" [(ngModel)]="maintenance.designation" (input)="onRowEdit(maintenance)">
+                      </ng-template>
+                      <ng-template pTemplate="output">
+                        {{ maintenance.designation }}
+                      </ng-template>
+                  </p-cellEditor>
+                </td> 
+                
+                <td pEditableColumn>
+                  <p-cellEditor>
+                      <ng-template pTemplate="input">
+                        <p-calendar id="date" #date="ngModel" [(ngModel)]="maintenance.date" name="date" dateFormat="dd/mm/yy" required appendTo="body" (onSelect)="onRowEdit(maintenance)"></p-calendar>
+                      </ng-template>
+                      <ng-template pTemplate="output">
+                        {{ maintenance.date | date}}
+                      </ng-template>
+                  </p-cellEditor>
+                </td>
+                <td pEditableColumn>
+                  <p-cellEditor>
+                      <ng-template pTemplate="input">
+                        <input id="prix" #prix="ngModel" type="text"  [(ngModel)]="maintenance.pu" name="prix" required pInputText pKeyFilter="num" placeholder="prix" (input)="onRowEdit(maintenance)">
+                      </ng-template>
+                      <ng-template pTemplate="output">
+                        {{ maintenance.pu }}
+                      </ng-template>
+                  </p-cellEditor>
+                </td> 
+                <td style="width: 5em">              
+                    <button pButton type="button" icon="pi pi-trash" class="ui-button-info" (click)="onDeleteR(maintenance)"></button>
+                </td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="summary">
+              Total:{{ getTotalR() }}
+            </ng-template>
+          </p-table>
+          
+    </mat-tab>
+</mat-tab-group>

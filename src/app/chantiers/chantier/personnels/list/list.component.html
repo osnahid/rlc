@@ -1,0 +1,38 @@
+<p-table #dtp [columns]="cols" [value]="chantier.personnels" scrollHeight="300px" [scrollable]="true" [responsive]="true">
+    <ng-template pTemplate="caption"></ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      <th style="width:5em"></th>
+      <th *ngFor="let col of cols" [pSortableColumn]="col.field">
+        {{col.header}}
+        <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+      </th>
+      <th style="width:5em"></th>
+    </tr>
+    <tr>
+      <th></th>
+      <th *ngFor="let col of cols" [ngSwitch]="col.field" class="ui-fluid">
+          <input pInputText type="text" (input)="dtp.filter($event.target.value, col.field, col.filterMatchMode)" [value]="dtp.filters[col.field]?.value">
+      </th>
+      <th></th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-Personnel let-ri="rowIndex">
+    <tr>
+      <td style="width: 5em">{{ ri+1 }}</td>
+      <td>{{ Personnel.nom }}</td>
+      <td>{{ Personnel.prenom }}</td>
+      <td>{{ Personnel.qualification }}</td>
+      <td>{{ Personnel.fonction }}</td>
+      <td>{{ Personnel.cnss }}</td>
+      <td>{{ Personnel.tel }}</td>
+      <td>{{ Personnel.salaire }}</td>     
+      <td>{{ Personnel.dateEm | date }}</td>
+      <td style="width: 5em">              
+        <button pButton type="button" icon="pi pi-trash" class="ui-button-info" (click)="onRowDelete(ri)"></button>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="summary">
+</ng-template>  
+</p-table>

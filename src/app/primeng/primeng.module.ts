@@ -12,9 +12,11 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {CheckboxModule} from 'primeng/checkbox';
 import {RadioButtonModule} from 'primeng/radiobutton';
 import {ToastModule} from 'primeng/toast';
-import { PickListModule } from 'primeng/primeng';
-
-
+import { PickListModule, MessageModule, MessagesModule, PanelModule, MessageService } from 'primeng/primeng';
+import {ToolbarModule} from 'primeng/toolbar';
+import {MenubarModule} from 'primeng/menubar';
+import {InplaceModule} from 'primeng/inplace';
+import {TooltipModule} from 'primeng/tooltip';
 
 @NgModule({
   declarations: [],
@@ -30,7 +32,15 @@ import { PickListModule } from 'primeng/primeng';
     KeyFilterModule,
     CalendarModule,
     CheckboxModule,
-    RadioButtonModule,ToastModule,PickListModule
+    RadioButtonModule,
+    ToastModule,
+    PickListModule,
+    ToolbarModule,
+    MenubarModule,
+    InplaceModule,
+    PanelModule,
+    MessageModule,
+    MessagesModule,TooltipModule
   ],
   exports: [
     BrowserAnimationsModule,
@@ -43,7 +53,17 @@ import { PickListModule } from 'primeng/primeng';
     KeyFilterModule,
     CalendarModule,
     CheckboxModule,
-    RadioButtonModule,ToastModule,PickListModule
-  ] 
+    RadioButtonModule,
+    ToastModule,
+    PickListModule,
+    ToolbarModule,
+    MenubarModule,
+    InplaceModule,
+    PanelModule,
+    MessageModule,
+    MessagesModule,
+    TooltipModule
+  ],
+  providers: [MessageService]
 })
 export class PrimengModule { }

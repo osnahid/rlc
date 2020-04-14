@@ -12,17 +12,17 @@ export class EtudePrixService {
 
   constructor(private http: HttpClient) { }
 
-  addEtudePrix(id: String,et: EtudePrix): Observable<EtudePrix>{
-    return this.http.post<EtudePrix>(`http://localhost:8080/${id}/EtudePrix/Add`,et);
+  addEtudePrix(id: String,et: EtudePrix){
+    this.http.post<EtudePrix>(`http://localhost:8083/lrcServer/${id}/EtudePrix/Add`,et).subscribe(data =>{
+      console.log(data);
+    });
   }
-  addLocation(id: number,l: LocationEp): Observable<LocationEp>{
-   return this.http.post<LocationEp>(`http://localhost:8080/Location/${id}/Add`,l);
-  }
+
   addAchatMateriel(id: number,am: AchatMateriel): Observable<AchatMateriel>{
-    return this.http.post<AchatMateriel>(`http://localhost:8080/AchatMateriels/${id}/Add`,am);
+    return this.http.post<AchatMateriel>(`http://localhost:8083/lrcServer/AchatMateriels/${id}/Add`,am);
   }
   deleteEt(id:number): Observable<Boolean>{
-    return this.http.delete<Boolean>(`http://localhost:8080/EtudePrix/delete/${id}`);
+    return this.http.delete<Boolean>(`http://localhost:8083/lrcServer/EtudePrix/delete/${id}`);
   }
   
 }

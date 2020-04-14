@@ -1,0 +1,37 @@
+.login-container {
+    height: 100%;
+    width: 100%;
+    align-items: center;
+    display: flex;
+  }
+  
+  form {
+    width: 100%;
+  }
+  
+  .login-content {
+    width: 400px;
+    display: block;
+    margin: 0 auto;
+  }
+  
+  .login-toolbar {
+    width: 400px;
+    margin: 0 auto;
+    justify-content: center;
+  }
+  .login-toolbar > img {
+    height: 30px;
+    width: 30px;
+  }
+  
+  .mat-form-field {
+    width: 100%;
+    display: block;
+  }
+  
+  .mat-raised-button {
+    width: 100%;
+    margin-top: 15px;
+  }
+  

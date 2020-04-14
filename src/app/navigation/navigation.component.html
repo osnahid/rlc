@@ -1,17 +1,17 @@
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav #drawer class="sidenav" fixedInViewport="true"
       [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-      [mode]="(isHandset$ | async) ? 'over' : 'side'"
-      [opened]="!(isHandset$ | async)">
-    <mat-toolbar>Menu</mat-toolbar>
+      
+      >
+    <mat-toolbar style="text-align: center"><img src="assets/images/logo.ico" alt="" style="width: 50px; height: 50px;display: block;margin-left: auto;margin-right: auto;"></mat-toolbar>
     <mat-nav-list>
       <a mat-list-item routerLink="/">Accueil</a>
       <a mat-list-item routerLink="/Ouvrages">Ouvrages</a>
       <a mat-list-item routerLink="/AppelOffres">Appel d'Offre</a>
-      <a mat-list-item routerLink="/Engins">Parc Materiels</a>
+      <a mat-list-item routerLink="/Chantiers">Chantiers</a>
+      <a mat-list-item routerLink="/Engins">Parc</a>
       <a mat-list-item routerLink="/Materials">Materiaux</a>
-      
-      
+      <a mat-list-item routerLink="/Personnels">Personnels</a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
@@ -21,10 +21,11 @@
         aria-label="Toggle sidenav"
         mat-icon-button
         (click)="drawer.toggle()"
-        *ngIf="isHandset$ | async">
+      >
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+        <img src="assets/images/logo.ico" alt="" style="width: 40px; height: 40px;">
       </button>
-      <span>La Route Centrale</span>
+      <span style=" margin-left: 25px;">La Route Centrale</span>
     </mat-toolbar>
     <!-- Add Content Here -->
     <ng-content></ng-content>

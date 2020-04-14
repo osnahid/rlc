@@ -1,0 +1,38 @@
+<p-table #av [value]="dos" [responsive]="true" scrollHeight="300px" [scrollable]="true">
+<ng-template pTemplate="caption"></ng-template>
+<ng-template pTemplate="header">
+    <tr>
+        <th style="width: 5em"></th>
+        <th>Désignation des Ouvrages</th>
+        <th>Unite</th>
+        <th>Qte estimé</th>
+        <th>prix unitaire</th>
+        <th>totale realisé</th>
+    </tr>
+</ng-template>
+<ng-template pTemplate="body" let-dec let-i="rowIndex">
+    <tr [ngClass]="dec.do.qte > dec.so.qte ? 'redFlag' : null">
+      <td style="width: 5em">{{ i+1 }}</td>
+      <td>{{ dec.do.ouv.designation }}</td>
+      <td>{{ dec.do.ouv.unite }}</td>
+      <td>{{ dec.do.qte }}</td>
+      <td>{{ dec.so.prix }}</td>
+      <td>{{ dec.so.prix * dec.do.qte }}</td>
+    </tr>
+</ng-template>
+<ng-template pTemplate="footer">
+    <tr>
+        <td colspan="5">Total</td>
+        <td>{{ getTotal() | number: '.2'  }}</td>
+    </tr>
+    <tr>
+      <td colspan="5">tva 20%</td>
+      <td>{{ getTotal() * 0.2 | number: '.2' }}</td>
+  </tr>
+  <tr>
+          <td colspan="5">Total TTC</td>
+          <td>{{ getTotal() + getTotal() * 0.2 | number: '.2' }}</td>
+      </tr>
+</ng-template>
+<ng-template pTemplate="summary"></ng-template>
+</p-table>

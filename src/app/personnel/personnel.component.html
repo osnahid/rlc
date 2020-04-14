@@ -1,0 +1,135 @@
+<p-toast [style]="{marginTop: '80px'}"></p-toast>
+<div class="grid-container">
+  <h1 class="mat-h1">Les moyens humains</h1>
+  <p-menubar [model]="items" [autoDisplay]="false"></p-menubar>
+  <mat-card class="card">
+  <mat-card-header>
+  </mat-card-header>
+  <mat-card-content>
+    <p-table #dtp [columns]="cols" [value]="personnels" [resizableColumns]="true" scrollHeight="300px" [scrollable]="true" [responsive]="true">
+      <ng-template pTemplate="caption">
+          <div style="text-align: center">        
+              <i class="pi pi-search" style="margin:4px 4px 0 0"></i>
+              <input type="text" pInputText size="50" placeholder="rechercher" (input)="dtp.filterGlobal($event.target.value, 'contains')" style="width:200px">
+          </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width:5em"></th>
+          <th *ngFor="let col of cols" [pSortableColumn]="col.field">
+            {{col.header}}
+            <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+          </th>
+          <th style="width:5em"></th>
+        </tr>
+        <tr>
+          <th></th>
+          <th *ngFor="let col of cols" [ngSwitch]="col.field" class="ui-fluid">
+              <input pInputText type="text" (input)="dtp.filter($event.target.value, col.field, col.filterMatchMode)" [value]="dtp.filters[col.field]?.value">
+          </th>
+          <th></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-Personnel let-ri="rowIndex">
+        <tr style="text-align:center">
+          <td style="width:5em">{{ ri+1 }}</td>
+          <td>{{ Personnel.nom }}</td>
+          <td>{{ Personnel.prenom }}</td>
+          <td>{{ Personnel.qualification }}</td>
+          <td>{{ Personnel.fonction }}</td>
+          <td>{{ Personnel.cnss }}</td>
+          <td>{{ Personnel.tel }}</td>
+          <td>{{ Personnel.salaire }}</td>     
+          <td>{{ Personnel.dateEm | date }}</td>
+          <td style="width:5em">              
+            <button pButton type="button" icon="pi pi-pencil" class="ui-button-info" (click)="onRowEdit(Personnel)"></button>
+            <button pButton type="button" icon="pi pi-trash" class="ui-button-info" (click)="onRowDelete(Personnel)"></button>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="summary">
+    </ng-template>  
+    </p-table>
+  </mat-card-content>
+  </mat-card>
+</div>
+<p-dialog header="modifier un personnel" [(visible)]="editP" [responsive]="true">
+  <form #fm="ngForm" (ngSubmit)="editPersonnel()">
+  <div>
+    <label for="nom">Nom</label>
+    <input type="text" id="nom" #nom="ngModel" [(ngModel)]="personnel.nom" name="nom" required pInputText placeholder="nom">
+  </div>
+  <div>
+    <label for="prenom">Prenom</label>
+    <input type="text" id="prenom" #prenom="ngModel" [(ngModel)]="personnel.prenom" name="prenom" required pInputText placeholder="prenom">
+  </div>
+  <div>
+    <label for="qualification">Qualification</label>
+    <input type="text" id="qualification" #qualification="ngModel" [(ngModel)]="personnel.qualification" required name="qualification" pInputText placeholder="qualification">
+  </div>
+  <div>
+    <label for="fonction">Fonction</label>
+    <input type="text" id="fonction" #fonction="ngModel" [(ngModel)]="personnel.fonction" name="fonction" required pInputText placeholder="fonction">
+  </div>
+  <div>
+    <label for="cnss">CNSS</label>
+    <input type="text" id="cnss" #cnss="ngModel" [(ngModel)]="personnel.cnss" name="cnss" required pInputText pKeyFilter="int" >
+  </div>
+  <div>
+    <label for="tele">Telephone</label>
+    <input type="text" id="tele" #tele="ngModel" [(ngModel)]="personnel.tel" name="tele" pKeyFilter="int" pInputText placeholder="tele">
+  </div>
+  <div>
+    <label for="salaire">Salaire</label>
+    <input type="text" id="salaire" #salaire="ngModel" [(ngModel)]="personnel.salaire" name="salaire" pKeyFilter="num" pInputText placeholder="salaire">
+  </div>
+  <div>
+    <label for="dateEm">Date d'Embauche</label>
+    <p-calendar id="dateEm" #dateEm="ngModel" [style]="{'width':'100%'}" appendTo="body" name="dateEm" [(ngModel)]="personnel.dateEm"  [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
+  </div>
+  <p-footer>
+    <button pButton [disabled]="fm.invalid" type="submit" style="width: 50%" icon="pi pi-check" class="ui-button-info"></button>
+    <button pButton type="button" style="width: 50%" icon="pi pi-times" class="ui-button-info" (click)="cancelEdit()"></button>
+  </p-footer>
+  </form>
+</p-dialog>
+<p-dialog header="Ajouter un personnel" [(visible)]="addP" [responsive]="true">
+  <form #fa="ngForm" (ngSubmit)="addPersonnel()">
+  <div>
+    <label for="nom">Nom</label>
+    <input type="text" id="nom" #nom="ngModel" [(ngModel)]="personnel.nom" name="nom" required pInputText>
+  </div>
+  <div>
+    <label for="prenom">Prenom</label>
+    <input type="text" id="prenom" #prenom="ngModel" [(ngModel)]="personnel.prenom" name="prenom" required pInputText>
+  </div>
+  <div>
+    <label for="qualification">Qualification</label>
+    <input type="text" id="qualification" #qualification="ngModel" [(ngModel)]="personnel.qualification" name="qualification" required pInputText>
+  </div>
+  <div>
+    <label for="fonction">Fonction</label>
+    <input type="text" id="fonction" #fonction="ngModel" [(ngModel)]="personnel.fonction" name="fonction" required  pInputText>
+  </div>
+  <div>
+    <label for="cnss">CNSS</label>
+    <input type="text" id="cnss" #cnss="ngModel" [(ngModel)]="personnel.cnss" name="cnss" required pInputText pKeyFilter="int">
+  </div>
+  <div>
+    <label for="tele">Telephone</label>
+    <input type="text" id="tele" #tele="ngModel" [(ngModel)]="personnel.tel" name="tele" pKeyFilter="int" pInputText>
+  </div>
+  <div>
+    <label for="salaire">Salaire</label>
+    <input type="text"  id="salaire" #salaire="ngModel" [(ngModel)]="personnel.salaire" name="salaire"  pKeyFilter="num" pInputText>
+  </div>
+  <div>
+    <label for="dateEm">Date d'Embauche</label>
+    <p-calendar id="dateEm" #dateEm="ngModel" [style]="{'width':'100%'}" appendTo="body" name="dateEm" [(ngModel)]="personnel.dateEm" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
+  </div>
+  <p-footer>
+    <button [disabled]="fa.invalid" pButton type="submit" icon="pi pi-check" class="ui-button-info" style="width: 50%"></button>
+    <button pButton type="button" icon="pi pi-times" class="ui-button-info" style="width: 50%" (click)="cancelAdd()"></button>
+  </p-footer>
+</form>
+</p-dialog>

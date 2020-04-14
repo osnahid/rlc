@@ -1,43 +1,65 @@
+<p-toast [style]="{marginTop: '80px'}"></p-toast>
 <div class="grid-container">
     <h1 class="mat-h1">materiaux</h1>
+    <p-menubar [model]="items" [autoDisplay]="false"></p-menubar>
 <mat-card class="card">
   <mat-card-header>
     <mat-card-title>
-        listes des materiaux
     </mat-card-title>
   </mat-card-header>
-  <mat-card-content>
-    <p-table [value]="materials">
-      <ng-template pTemplate="caption">
-    </ng-template>
+  <mat-card-content> 
+    <p-table #dtm [value]="materials" [columns]="cols" [resizableColumns]="true" scrollHeight="300px" [scrollable]="true" [responsive]="true">
+        <ng-template pTemplate="caption">
+            <div style="text-align: center">        
+                <i class="pi pi-search" style="margin:4px 4px 0 0"></i>
+                <input type="text" pInputText size="50" placeholder="rechercher" (input)="dtm.filterGlobal($event.target.value, 'contains')" style="width:200px">
+            </div>
+        </ng-template>
       <ng-template pTemplate="header">
         <tr>
-          <th></th>
+          <th style="width: 5em"></th>
           <th>Designation</th>
           <th>Categories</th>
           <th>Prix</th>
+          <th style="width: 5em"></th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-i="rowIndex" let-materiel>
         <tr>
-          <td>
-            {{ i }}
+          <td style="width: 5em">
+            {{ i+1 }}
           </td>
-          <td>
-            {{ materiel.designation }}
-          </td>
+          <td pEditableColumn>
+              <p-cellEditor>
+                  <ng-template pTemplate="input">
+                      <input type="text" [(ngModel)]="materiel.designation" (input)="onUpdate(materiel)" pInputText>
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                      {{ materiel.designation }}
+                  </ng-template>
+              </p-cellEditor>
+          </td> 
           <td>
             {{ materiel.cm.designation }}
           </td>
-          <td>
-            {{ materiel.prix }}
+          <td pEditableColumn>
+              <p-cellEditor>
+                  <ng-template pTemplate="input">
+                      <input type="text" [(ngModel)]="materiel.prix" pkeyFilter="num" (input)="onUpdate(materiel)" pInputText>
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                      {{ materiel.prix }}
+                  </ng-template>
+              </p-cellEditor>
+          </td>
+          <td style="width: 5em">
+              <button pButton type="button" icon="pi pi-trash" class="ui-button-info" (click)="onRowDelete(materiel)"></button>
           </td>
         </tr>
       </ng-template>
       <ng-template pTemplate="footer">
       </ng-template>
       <ng-template pTemplate="summary">
-        <p-button icon="pi pi-plus" (click)="addm=!addm" label="ajouter"></p-button>
       </ng-template>
     </p-table>
   
@@ -46,20 +68,37 @@
   </mat-card-footer>
 </mat-card>
 </div>
-<p-dialog header="header" [(visible)]="addm" [modal]="true" [responsive]="true" appendTo="body" >
+<p-dialog header="ajouter un material" [(visible)]="addm" [modal]="true" [responsive]="true" appendTo="body" >
+  <form #formM="ngForm" (ngSubmit)="addMat()">
   <div>
     <label for="designation">Designation</label>
-    <input type="type" id="designation" [(ngModel)]="mat.designation" pInputText placeholder="placeholder">
+    <input type="text" #designation="ngModel" required id="designation" name="designation" [(ngModel)]="mat.designation" pInputText placeholder="placeholder">
   </div>
   <div>
     <label for="categorie">Categorie</label>
-    <p-dropdown id="categorie" [style]="{'width':'100%'}" [options]="categories" [(ngModel)]="mat.cm" placeholder="categorie" optionLabel="designation" [showClear]="true" appendTo="body"></p-dropdown>
+    <p-dropdown #categorie="ngModel" required name="categorie" id="categorie" [style]="{'width':'100%'}" [options]="categories" [(ngModel)]="mat.cm" placeholder="categorie" optionLabel="designation" [showClear]="true" appendTo="body"></p-dropdown>
   </div>
   <div>
     <label for="prix">prix</label>
-    <input type="type" id="prix" name="prix" [(ngModel)]="mat.prix" pInputText  pKeyFilter="num" placeholder="placeholder">
+    <input #prix="ngModel" required type="text" id="prix" name="prix" [(ngModel)]="mat.prix" pInputText  pKeyFilter="num" placeholder="placeholder">
   </div>
+  <hr>
   <p-footer>
-    <p-button icon="pi pi-check" (click)="addMat()" label="ajouter"></p-button>
+    <p-button icon="pi pi-check" [disabled]="formM.invalid" style="width: 50%" type="submit" label="ajouter"></p-button>
+    <p-button icon="pi pi-times" style="width: 50%" (click)="cancel()" label="anuller"></p-button>
   </p-footer>
+</form>
+</p-dialog>
+<p-dialog header="ajouter une categorie" [(visible)]="addcm" [modal]="true" [responsive]="true" appendTo="body" >
+  <form #formCM="ngForm" (ngSubmit)="addCatMat()">
+  <div>
+    <label for="designation">Designation</label>
+    <input type="text" #designation="ngModel" required id="designation" name="designation" [(ngModel)]="cm.designation" pInputText placeholder="placeholder">
+  </div>
+  <hr>
+  <p-footer>
+    <button pButton icon="pi pi-check" [disabled]="formCM.invalid" style="width: 50%" type="submit" label="ajouter"></button>
+    <button pButton icon="pi pi-times" style="width: 50%" (click)="cancelCm()" label="anuller"></button>
+  </p-footer>
+</form>
 </p-dialog>

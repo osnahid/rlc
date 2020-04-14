@@ -1,0 +1,93 @@
+<p-toast [style]="{marginTop: '80px'}" ></p-toast>
+<p-table [value]="locations" [responsive]="true">
+  <ng-template pTemplate="caption">
+    <form #formAL="ngForm" (ngSubmit)="onAdd(E,P)">
+    <tr>
+      <th colspan="3">
+        <label for="nbrh">Nombre des heures</label>
+        <p-dropdown #E name="E" [style]="{'width':'100%'}" [(ngModel)]="location.engin" required [options]="engins" placeholder="engin" [showClear]="true" appendTo="body">
+          <ng-template let-engin pTemplate="item"> 
+            <div class="ui-helper-clearfix" style="position: relative;height:25px;">
+            <div style="font-size:14px;float:right;margin-top:4px">{{engin.label}}</div>
+          </div>
+        </ng-template>
+        </p-dropdown>
+      </th>
+      <th>
+        <label for="gaz">Prix Gazoil</label>
+        <input #gaz="ngModel" name="gaz" type="text" pInputText required [(ngModel)]="location.prixGaz" pKeyFilter="num" placeholder="prixGaz">        
+      </th>
+      <th>
+        <label for="nbrh">Nombre des heures</label>
+        <input #nbrh="ngModel" name="nbrh" type="text" pInputText required [(ngModel)]="location.nbrHeure" pKeyFilter="num" placeholder="nbrHeure">        
+      </th>
+      <th colspan="2">
+          <label for="chauffeur">Chauffeur</label>        
+        <p-dropdown #P="ngModel" name="P" [style]="{'width':'100%'}" required [options]="personnels" [(ngModel)]="location.chauffeur" placeholder="chauffeur" [showClear]="true" appendTo="body">
+          <ng-template let-personnel pTemplate="item"> 
+            <div class="ui-helper-clearfix" style="position: relative;height:25px;">
+              <div style="font-size:14px;float:right;margin-top:4px">{{personnel.label}}</div>
+            </div>
+          </ng-template>
+        </p-dropdown>
+      </th>
+      <th style="width:8em">
+          <button pButton type="submit" [disabled]="formAL.invalid" [style]="{'margin':'50%'}" icon="pi pi-plus" class="ui-button-info"></button>
+      </th>
+    </tr>
+  </form>
+  </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width:7em"></th>
+        <th>designation</th>
+        <th>prix de la location</th>
+        <th>Consommation</th>
+        <th>Prix-gaz</th>
+        <th>nombres des heures</th>
+        <th>Chauffeur</th>
+        <th>salaire chauffeur</th>
+        <th style="width:8em"></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-editing="editing" let-i="rowIndex" let-loc>
+      <tr>
+        <td>{{ i+1 }}</td>
+        <td>{{ loc.engin.designation }}</td>
+        <td>{{ loc.engin.prixLocation }}</td>
+        <td>{{ loc.engin.consommationH }}</td>    
+        <td pEditableColumn>
+          <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input #gaz="ngModel" type="text" pInputText required [(ngModel)]="loc.prixGaz" pKeyFilter="num" placeholder="prixGaz">        
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{ loc.prixGaz }}
+              </ng-template>
+          </p-cellEditor>
+        </td>
+        <td pEditableColumn>
+          <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input #nbrh="ngModel" type="text" pInputText required [(ngModel)]="loc.nbrHeure" pKeyFilter="num" placeholder="nbrHeure">        
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{ loc.nbrHeure }}  
+              </ng-template>
+          </p-cellEditor>
+      </td>
+        <td>{{ loc.chauffeur.nom }} {{ loc.chauffeur.prenom }}</td>
+        <td>{{ loc.chauffeur.salaire }}</td>
+        <td style="text-align:center">
+            <button pButton type="button" icon="pi pi-trash" class="ui-button-info" (click)="onDelete(i)"></button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+  <p-footer>
+    <div class="ui-g-12">
+      <div class="ui-g-6"><button type="button"  style="width: 100%" pButton icon="pi pi-check" (click)="add()" label="Enregistrer"></button></div>
+      <div class="ui-g-6"><button type="button" style="width: 100%" pButton icon="pi pi-close" (click)="cancel()" label="Annuler" class="ui-button-secondary"></button> </div> 
+    </div>
+  </p-footer>
+  

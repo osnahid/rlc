@@ -1,0 +1,47 @@
+<p-toast [style]="{marginTop: '80px'}"></p-toast>
+<p-table [value]="chantier.achats" scrollHeight="300px" [scrollable]="true" [responsive]="true">
+  <ng-template pTemplate="caption"></ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      <th style="width:5em"></th>
+      <th>material</th>
+      <th>prix d'achat</th>
+      <th>qté</th>
+      <th>total</th>
+      <th style="width:5em"></th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-achat let-i="rowIndex">
+    <tr>
+      <td style="width:5em">{{ i+1 }}</td>
+      <td>{{ achat.materiel.designation }}</td>
+      <td pEditableColumn>
+        <p-cellEditor>
+            <ng-template pTemplate="input">
+              <input type="text" pInputText pKeyFilter="num" [(ngModel)]="achat.prix" (input)="update(achat)">
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{ achat.prix }}
+            </ng-template>
+        </p-cellEditor>
+      </td>
+      <td pEditableColumn>
+        <p-cellEditor>
+            <ng-template pTemplate="input">
+              <input type="text" pInputText pKeyFilter="num" [(ngModel)]="achat.qte" (input)="update(achat)">
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{ achat.qte }}
+            </ng-template>
+        </p-cellEditor>
+      </td>
+      <td>{{ achat.prix * achat.qte }}</td>
+      <td style="width:5em">
+          <button pButton type="button" icon="pi pi-trash" class="ui-button-info" (click)="onDelete(i,achat)"></button>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="summary">
+      Total :{{ getTotal() }}
+  </ng-template>
+</p-table>

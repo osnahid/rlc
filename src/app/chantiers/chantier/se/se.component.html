@@ -1,0 +1,30 @@
+<p-table [columns]="cols" [value]="depences" scrollHeight="300px" [scrollable]="true" [responsive]="true">
+    <ng-template pTemplate="header" let-cols>
+      <tr>
+        <th style="width: 5em"></th>
+        <th *ngFor="let col of cols">
+          {{col.header}}
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-depence let-i="rowIndex" let-cols="cols">
+      <tr>
+        <td style="width: 5em">{{ i+1 }}</td>
+        <td>
+        {{depence.nature}}
+        </td>
+        <td>
+          {{depence.date | date}}
+        </td>
+        <td>
+          {{depence.montant}}
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="footer">
+      <tr>
+        <td colspan="3">total :</td>
+        <td>{{getTotal()}}</td>
+      </tr>
+    </ng-template>
+  </p-table>

@@ -11,15 +11,15 @@ export class SoService {
   constructor(private api: HttpClient) { }
 
   addListSo(id:String,sos: So[]): Observable<So[]>{
-    return this.api.post<So[]>(`http://localhost:8080/SO/${id}/AddL`,sos);
+    return this.api.post<So[]>(`http://localhost:8083/lrcServer/SO/${id}/AddL`,sos);
   }
   addSo(id:String,so: So): Observable<So>{
-    return this.api.post<So>(`http://localhost:8080/SO/${id}/Add`,so);
+    return this.api.post<So>(`http://localhost:8083/lrcServer/SO/${id}/Add`,so);
   }
-  deleteSo(id:String){
-    this.api.delete(`http://localhost:8080/SO/${id}/delete`);
+  deleteSo(id:number){
+    this.api.delete(`http://localhost:8083/lrcServer/SO/${id}/delete`);
   }
-  editSo(so:So){
-    this.api.put(`http://localhost:8080/SO/Update`,so);
+  editSo(id:String,so:So){
+    return this.api.put<So>(`http://localhost:8083/lrcServer/SO/${id}/Update`,so);
   }
 }

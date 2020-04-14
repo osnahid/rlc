@@ -1,0 +1,143 @@
+<p-toast [style]="{marginTop: '80px'}"></p-toast>
+<p-toast position="center" styleClass="custom-toast" key="c" (onClose)="onReject()" [modal]="true" appendTo="body">
+  <ng-template let-message pTemplate="message">
+      <div style="text-align: center">
+          <i class="pi pi-exclamation-triangle" style="font-size: 3em"></i>
+          <p>{{message.detail}}</p>
+      </div>
+      <div class="ui-g ui-fluid">
+          <div class="ui-g-6">
+              <button type="button" pButton (click)="onConfirmDelete(message.data)" label="Yes" class="ui-button-success"></button>
+          </div>
+          <div class="ui-g-6">
+              <button type="button" pButton (click)="onReject()" label="No" class="ui-button-secondary"></button>
+          </div>
+      </div>
+  </ng-template>
+</p-toast>
+<div class="grid-container">
+  <h1 class="mat-h1">Chantiers</h1>
+  <p-menubar [model]="items" [autoDisplay]="false"></p-menubar>
+  <mat-card class="card">
+    <mat-card-header>
+        Chantier en cour
+    </mat-card-header>
+    <mat-card-content>
+        <p-table #dtc [columns]="cols" [value]="chantierEnCours" selectionMode="single" [(selection)]="chantier" (onRowSelect)="onRowSelect($event)" [paginator]="true" [rows]="10" [responsive]="true">
+            <ng-template pTemplate="header">
+              <tr>
+                <th style="width:5em"></th>
+                <th *ngFor="let col of cols" [pSortableColumn]="col.field">
+                  {{col.header}}
+                  <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </th>
+                <th style="width:7em"></th>
+              </tr>
+              <tr>
+                <th></th>
+                <th *ngFor="let col of cols" [ngSwitch]="col.field" class="ui-fluid">
+                    <input pInputText type="text" (input)="dtc.filter($event.target.value, col.field, col.filterMatchMode)" [value]="dtc.filters[col.field]?.value">
+                </th>
+                <th></th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-Chantier let-ri="rowIndex">
+              <tr [pSelectableRow]="Chantier">
+                <td>{{ ri+1 }}</td>
+                <td>{{ Chantier.numCh }}</td>
+                <td>{{ Chantier.date | date}}</td>
+                <td>{{ Chantier.aoc.localisation }}</td>
+                <td>{{ Chantier.aoc.numAO }}</td>
+                <td>{{ Chantier.aoc.estimation }}</td>
+                <td>              
+                  <button pButton type="button" icon="pi pi-pencil" class="ui-button-info" (click)="onRowEdit(Chantier)"></button>
+                  <button pButton type="button" icon="pi pi-trash" class="ui-button-info" (click)="onRowDelete(Chantier)"></button>
+                </td>
+              </tr>
+            </ng-template> 
+          </p-table>
+    </mat-card-content>
+  </mat-card>
+  <mat-card class="card">
+      <mat-card-header>
+          Chantier finis
+      </mat-card-header>
+      <mat-card-content>
+          <p-table #dtcf [columns]="cols" [value]="chantierFini" selectionMode="single" [(selection)]="chantier" (onRowSelect)="onRowSelect($event)" [paginator]="true" [rows]="10" [responsive]="true">
+              <ng-template pTemplate="header">
+                <tr>
+                  <th style="width:5em"></th>
+                  <th *ngFor="let col of cols" [pSortableColumn]="col.field">
+                    {{col.header}}
+                    <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                  </th>
+                  <th style="width:7em"></th>
+                </tr>
+                <tr>
+                  <th></th>
+                  <th *ngFor="let col of cols" [ngSwitch]="col.field" class="ui-fluid">
+                      <input pInputText type="text" (input)="dtcf.filter($event.target.value, col.field, col.filterMatchMode)" [value]="dtcf.filters[col.field]?.value">
+                  </th>
+                  <th></th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-Chantier let-ri="rowIndex">
+                <tr [pSelectableRow]="Chantier">
+                  <td>{{ ri+1 }}</td>
+                  <td>{{ Chantier.numCh }}</td>
+                  <td>{{ Chantier.date | date }}</td>
+                  <td>{{ Chantier.aoc.localisation }}</td>
+                  <td>{{ Chantier.aoc.numAO }}</td>
+                  <td>{{ Chantier.aoc.estimation }}</td>
+                  <td>              
+                    <button pButton type="button" icon="pi pi-pencil" class="ui-button-info" (click)="onRowEdit(Chantier)"></button>
+                    <button pButton type="button" icon="pi pi-trash" class="ui-button-info" (click)="onRowDelete(Chantier)"></button>
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+      </mat-card-content>
+    </mat-card>
+</div>
+<p-dialog header="ajouter un chantier" [(visible)]="addC" [modal]="true" [responsive]="true" appendTo="body">
+  <form (ngSubmit)="add()" #formAOA="ngForm">
+  <div>
+    <label for="numCh">numero Chantier</label>
+    <input type="text" pInputText [(ngModel)]="chantier.numCh" required #numCh="ngModel" name="numCh" id="numCh">
+  </div>
+  <div>
+    <label for="date">date</label>
+    <p-calendar [style]="{'width':'100%'}" [(ngModel)]="chantier.date" required #dateM="ngModel" id="dateM" name="date" dateFormat="dd/mm/yy" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" appendTo="body"></p-calendar>
+  </div>
+  <div>
+    <label for="ao">Appel d'offre</label>
+    <p-dropdown id="appel" #appel="ngModel" name="appel" [style]="{'width':'100%'}" required [options]="aos" [(ngModel)]="chantier.aoc" placeholder="AppelOffre" optionLabel="numAO" [showClear]="true" appendTo="body"></p-dropdown>
+  </div>
+  <br>
+  <p-footer>
+    <button pButton style="width: 50%" type="submit" [disabled]="formAOA.invalid" icon="pi pi-check" class="ui-button-info"></button>
+    <button pButton style="width: 50%" type="button" icon="pi pi-times" class="ui-button-info" (click)="cancelAdd()"></button>
+  </p-footer>
+  </form>
+</p-dialog>
+<p-dialog header="modifier un chantier" [(visible)]="editC" [modal]="true" [responsive]="true" appendTo="body">
+  <form (ngSubmit)="add()" #formAOM="ngForm">  
+  <div>
+      <label for="numCh">numero Chantier</label>
+      <input type="type" pInputText [(ngModel)]="chantier.numCh" required #numCh="ngModel" name="numCh" id="numCh">
+    </div>
+    <div>
+      <label for="date">date</label>
+      <p-calendar required #date="ngModel" id="date" name="date" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" [(ngModel)]="chantier.date" [style]="{'width':'100%'}" dateFormat="dd/mm/yy" appendTo="body"></p-calendar>
+    </div>
+    <div>
+      <label for="ao">Appel d'offre</label>
+      <p-dropdown id="appel" #appel="ngModel" name="appel" [style]="{'width':'100%'}" [options]="aos" [(ngModel)]="chantier.aoc" placeholder="AppelOffre" optionLabel="numAO" [showClear]="true" appendTo="body"></p-dropdown>
+    </div>
+    <hr>
+    <p-footer>
+      <button pButton style="width: 50%" type="submit" [disabled]="formAOM.invalid" icon="pi pi-check" class="ui-button-info"></button>
+      <button pButton style="width: 50%" type="button" icon="pi pi-times" class="ui-button-info" (click)="cancelEdit()"></button>
+    </p-footer>
+  </form>
+  </p-dialog>  

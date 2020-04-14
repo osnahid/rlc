@@ -3,7 +3,7 @@ import { EtudePrixModule } from './etude-prix.module';
 import { AppelOffre } from '../interfaces/appel-offre';
 import { EtudePrix } from '../interfaces/etude-prix';
 import { AppelOffreService } from '../services/appel-offre.service';
-import { EtudePrixService } from '../services/etude-prix.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-etude-prix',
@@ -11,42 +11,35 @@ import { EtudePrixService } from '../services/etude-prix.service';
   styleUrls: ['./etude-prix.component.css']
 })
 export class EtudePrixComponent implements OnInit {
-  eps: EtudePrixModule[];
-  _ao: AppelOffre;
-  @Input() 
-  set ao(ao: AppelOffre){
-    this.eps = [];
-    ao.etudePrix.forEach(
-      (value: EtudePrix) => {
-        this.eps.push(
-          new EtudePrixModule(value)
-        );
-      });
-    this._ao = ao;
-  }
-  get ao(): AppelOffre{
-    return this._ao;
-  }
-  add: boolean= false;
-  
-  constructor(private aos: AppelOffreService,private ets: EtudePrixService) { 
+  eps: EtudePrixModule[]=[];
+  ao: AppelOffre;
+  constructor(private aos: AppelOffreService,private message: MessageService) { 
     
   }
   ngOnInit() {
-    
+    this.aos.currentAO.subscribe(data => {
+      if(data.etudePrix) {
+      this.eps = [];
+      data.etudePrix.forEach(
+      (value: EtudePrix) => 
+        {this.eps.push(new EtudePrixModule(value));}
+      );
+        
+    }
+      if(data) this.ao = data;
+    }
+    );
   }
   
-  eta(added: boolean){
-    if(added){
-    this.eps = [];
-    this.aos.getAO(this._ao.numAO).subscribe(data => data.etudePrix.forEach((value: EtudePrix) => {this.eps.push(new EtudePrixModule(value));}));
-    this.add = false;
-    }
-  }
   delete(id :EtudePrix,position: number){
-    this.ets.deleteEt(id.idET).subscribe(data => 
-      this.eps.splice(position)
-      );
+    this.aos.deleteEt(id.idET).subscribe(data => {
+      this.aos.getAO(this.ao.numAO);
+      this.message.add({
+        severity:"info",
+        summary:"etude du prix a été supprimé"
+      });
+    }
+  );
   }
 
 }

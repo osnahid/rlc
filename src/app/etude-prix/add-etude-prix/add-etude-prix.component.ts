@@ -9,7 +9,8 @@ import { LocationEp } from 'src/app/interfaces/locationEp';
 import { Materiel } from 'src/app/interfaces/materiel';
 import { MaterielService } from 'src/app/services/materiel.service';
 import { AchatMateriel } from 'src/app/interfaces/achat-materiel';
-import { EtudePrixService } from 'src/app/services/etude-prix.service';
+import { AppelOffreService } from 'src/app/services/appel-offre.service';
+import { SelectItem } from 'primeng/api';
 
 @Component({
   selector: 'app-add-etude-prix',
@@ -17,7 +18,7 @@ import { EtudePrixService } from 'src/app/services/etude-prix.service';
   styleUrls: ['./add-etude-prix.component.css']
 })
 export class AddEtudePrixComponent implements OnInit {
-  @Input() ao: AppelOffre;
+  ao: AppelOffre;
   @Output() added = new EventEmitter<boolean>();
   fois: boolean= true;
   ouv: boolean= true;
@@ -25,19 +26,36 @@ export class AddEtudePrixComponent implements OnInit {
   acm: boolean= true;
   acad: boolean = false;
   et : EtudePrix = new EtudePrix();
-  prixGaz: number;
+  prixGaz: number = 10;
   ouvrages: Ouvrage[] = [];
   engins: Engin[] = [];
   locations: LocationEp[] = [];
   location: LocationEp = new LocationEp();
   acmateriels: AchatMateriel[] = [];
   ac: AchatMateriel = new AchatMateriel();
-  materiels: Materiel[] = [];
+  materiels: SelectItem[] = [];
   camions: Engin[] = [];
-  constructor(private apiOuvrage: OuvrageService,private apiEngin: EnginService, private apiMateriel: MaterielService, private ets: EtudePrixService) {
-    this.apiOuvrage.getOuvrage().subscribe(
-      data => this.ouvrages = data
-    );
+  constructor(private apiAO: AppelOffreService,private apiOuvrage: OuvrageService,private apiEngin: EnginService, private apiMateriel: MaterielService) {
+    
+  }
+
+  ngOnInit() {
+    this.apiAO.currentAO.subscribe(data => {
+      this.ao = data;
+      data.soumission.so.forEach(
+        value =>{
+          let c : boolean = true;
+            data.etudePrix.forEach(
+              val=>{
+                if(val.ouvrageE.designation === value.ouv.designation) c=false;
+              }
+            );
+          console.log(c);
+          if(c)
+          this.ouvrages.push(value.ouv);
+        }
+      );
+    });
     this.apiEngin.getEnginExterne().subscribe(
       data => this.engins = data
     );
@@ -48,12 +66,10 @@ export class AddEtudePrixComponent implements OnInit {
       data => this.camions = data
     );
     this.apiMateriel.getMateriel().subscribe(
-      data => this.materiels = data
+      data => { data.forEach(val =>{
+        this.materiels.push({label:val.cm.designation+" "+val.designation,value: val});
+      });}
     );
-  }
-
-  ngOnInit() {
-    
   }
   deleteLoc(index: number){
     this.locations.splice(index);
@@ -71,33 +87,31 @@ export class AddEtudePrixComponent implements OnInit {
     this.location = new LocationEp();
     this.loc = false;
   }
+
   addET(){
     if(this.locations.length > 0) this.locations.forEach(
       (value)=>{
         value.prixGaz = this.prixGaz;
       });
-    this.et.locations = this.locations;
-    this.et.materiels = this.acmateriels;
-    this.ets.addEtudePrix(this.ao.numAO,this.et).subscribe(dataEt => 
-      {
-        // if(this.acmateriels.length > 0) this.acmateriels.forEach(
-        //   (value)=>{
-        //     this.ets.addAchatMateriel(dataEt.idET,value).subscribe(data => console.log(true));
-        //   }
-        // );
-        // if(this.locations.length > 0) this.locations.forEach(
-        //   (value)=>{
-        //     value.prixGaz = this.prixGaz;
-        //     this.ets.addLocation(dataEt.idET,value).subscribe(data => console.log(true));
-        //   });
-        this.added.emit(true);
+    this.apiAO.addEtudePrix(this.ao.numAO,this.et).subscribe(
+      data=>{
+        this.apiAO.addLocation(this.ao.numAO,data.idET,this.locations).subscribe(datas => {
+          console.log(datas);
+          this.apiAO.addAchatMateriel(this.ao.numAO,data.idET,this.acmateriels).subscribe(datae => {
+            console.log(datae);
+            this.added.emit(true);
+            this.acmateriels = [];
+            this.locations = [];
+            this.et = new EtudePrix();
+          });
+        });  
       }
-      );
-      
+    );
   }
   reset(){
+    this.et = new EtudePrix();
     this.acmateriels = [];
     this.locations = [];
+    this.added.emit(false);
   }
-
 }

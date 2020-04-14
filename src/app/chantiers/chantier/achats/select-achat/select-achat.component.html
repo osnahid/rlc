@@ -1,0 +1,42 @@
+<form #f="ngForm" (ngSubmit)="onSubmit(f)">
+        <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-4">
+                    material *:
+                </div>
+                <div class="ui-grid-col-8">
+                    <p-dropdown id="materiel" [options]="materiels" [(ngModel)]="achat.materiel" required (onChange)="onselect($event)" optionLabel="designation" appendTo="body" showClear="true" placeholder="materiaux" #materiel="ngModel" name="materiel"></p-dropdown>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-4">
+                    Quantité *:
+                </div>
+                <div class="ui-grid-col-8">
+                    <input id="Quantite" #Quantite="ngModel" type="text" [(ngModel)]="achat.qte" required name="Quantite" pInputText pKeyFilter="num" placeholder="Quantité">
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-4">
+                    prix *:
+                </div>
+                <div class="ui-grid-col-8">
+                    <input id="prix" #prix="ngModel" type="text"  [(ngModel)]="achat.prix" name="prix" required pInputText pKeyFilter="num" placeholder="prix">
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-4">
+                    date *:
+                </div>
+                <div class="ui-grid-col-8">
+                    <p-calendar id="date" #date="ngModel" [(ngModel)]="achat.date" name="date" dateFormat="dd/mm/yy" required appendTo="body"></p-calendar>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-4"></div>
+                <div class="ui-grid-col-8">
+                    <button pButton type="submit" label="Submit" [disabled]="f.invalid"></button>
+                </div>
+            </div>
+        </div>
+    </form>

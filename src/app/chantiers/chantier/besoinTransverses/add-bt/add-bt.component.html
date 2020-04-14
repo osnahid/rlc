@@ -1,0 +1,58 @@
+<form #f="ngForm" (ngSubmit)="onSubmit(f)">
+    <div class="ui-grid ui-grid-responsive ui-fluid">
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-4">
+                Designation *:
+            </div>
+            <div class="ui-grid-col-8">
+                <input id="designation" #designation="ngModel" type="text" [(ngModel)]="bt.designation" required name="designation" pInputText placeholder="designation">
+            </div>
+        </div>
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-4">
+                type *:
+            </div>
+            <div class="ui-grid-col-8">
+              <p-dropdown id="type" appendTo="body" #type="ngModel" [options]="types" [(ngModel)]="bt.type" name="type" placeholder="type" required [showClear]="true"></p-dropdown>
+            </div>
+        </div>
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-4">
+                adresse *:
+            </div>
+            <div class="ui-grid-col-8">
+                <input id="adresse" #adresse="ngModel" type="text" [(ngModel)]="bt.adresse" required name="adresse" pInputText placeholder="adresse">
+            </div>
+        </div>
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-4">
+                tele *:
+            </div>
+            <div class="ui-grid-col-8">
+                <input id="tel" #tel="ngModel" type="text" [(ngModel)]="bt.tel" required name="tel" pInputText pKeyFilter="num" placeholder="telephone">
+            </div>
+        </div>
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-4">
+                montant *:
+            </div>
+            <div class="ui-grid-col-8">
+                <input id="montant" #montant="ngModel" type="text"  [(ngModel)]="bt.montant" name="montant" required pInputText pKeyFilter="num" placeholder="prix">
+            </div>
+        </div>
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-4">
+                date *:
+            </div>
+            <div class="ui-grid-col-8">
+                <p-calendar id="date" #date="ngModel" [(ngModel)]="bt.date" name="date" dateFormat="dd/mm/yy" required appendTo="body"></p-calendar>
+            </div>
+        </div>
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-4"></div>
+            <div class="ui-grid-col-8">
+                <button pButton type="submit" label="Submit" [disabled]="f.invalid"></button>
+            </div>
+        </div>
+    </div>
+</form>
